@@ -1,18 +1,7 @@
-## MixDat is a github project that was done by Robin Tang Reese Garth.
-It was to explore and demonstrate the power of the MEAN stack (MongoDB, Express, AngularJS, Node).
+## MixDat
+MixDat is a Github project created by Robin Tang Reese Garth.
+_It was made to to explore and demonstrate the power of the MEAN stack (MongoDB, Express, AngularJS, NodeJS).
 
-
-Project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
-You can use it to quickly bootstrap your angular webapp projects and dev environment for these
-projects.
-
-The seed contains AngularJS libraries, test libraries and a bunch of scripts all preconfigured for
-instant web development gratification. Just clone the repo (or download the zip/tarball), start up
-our (or yours) webserver and you are ready to develop and test your application.
-
-The seed app doesn't do much, just shows how to wire two controllers and views together. You can
-check it out by opening app/index.html in your browser (might not work file `file://` scheme in
-certain browsers, see note below).
 
 _Note: While angular is client-side-only technology and it's possible to create angular webapps that
 don't require a backend server at all, we recommend hosting the project files using a local
