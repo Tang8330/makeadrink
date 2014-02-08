@@ -7,3 +7,9 @@
 // In this case it is a simple value service.
 angular.module('myApp.services', []).
   value('version', '0.1');
+angular.module('myApp.serives', ['ngResource'])
+.factory('myApp.serivces', function($resource) {
+  return $resource('recipes.json',{ }, {
+    getData: {method:'GET', isArray: false}
+  });
+});
