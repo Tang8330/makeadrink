@@ -6,12 +6,28 @@
 <div class='col-xs-12'>
 	<h2>Make your own drink!</h2>
 </div>
-<div class='col-xs-offset-2 col-xs-8 col-xs-offset-2'>
-	As you may know, there are many components in making a drink, when you click randomize, 
-	it will generate a drink recipe courtesy of IBA. (International Bartender's Association)
-</div>
+
 <div class='col-xs-12 text-center'>
+
+	<div class='details' style='display:none'>
+		Not satisfied with your results? Retry again!
+	</div>
 	<div class='recipe-name'></div>
 	<div class='ingredients'></div>
-	<button type="button" class='btn btn-info'>Randomize!</button>
+	<button type="button" class='btn btn-info randomize'>Randomize!</button>
+	<button type="button" class='btn btn-info respin' style='display:none'>Retry!</button>
 </div>
+
+<script>
+	$(document.body).on('click', '.randomize', function() {
+		$('.randomize').hide();
+		$('.details').fadeIn('slow');
+		$('.respin').fadeIn('slow');
+		
+		//randomize function
+	});
+	
+	$(document.body).on('click', '.respin', function() {
+		//randomize again
+	});
+</script>
