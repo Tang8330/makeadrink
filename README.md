@@ -1,6 +1,8 @@
-# angular-seed — the seed for AngularJS apps
+## MixDat is a github project that was done by Robin Tang Reese Garth.
+It was to explore and demonstrate the power of the MEAN stack (MongoDB, Express, AngularJS, Node).
 
-This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
+
+Project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
 You can use it to quickly bootstrap your angular webapp projects and dev environment for these
 projects.
 
