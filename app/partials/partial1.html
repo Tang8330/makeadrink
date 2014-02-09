@@ -3,9 +3,6 @@
 	margin-top:20px;
 }
 </style>
-<script>
-
-</script>
 <div class='col-xs-12'>
 	<h2>Make your own drink!</h2>
 </div>
@@ -16,12 +13,12 @@
 	<div class='details' style='display:none'>
 		Not satisfied with your results? Try it again!
 	</div>
-	<div data-ng-repeat="drink in alcoholicDrinks">
+	<div class="drink">
 	{{drink.name}}
 	<p>{{drink.ingredients}}</p></div>
 	<div class='ingredients'></div>
-	<button type="button" class='btn btn-info randomize'>Randomize!</button>
-	<button type="button" class='btn btn-info respin' style='display:none'>Retry!</button>
+	<button type="button" class='btn btn-info randomize' ng-click="drink=randomize()">Randomize!</button>
+	<button type="button" class='btn btn-info respin' ng-click="drink=randomize()" style='display:none'>Retry!</button>
 	</div>
 </div>
 
@@ -31,10 +28,5 @@
 		$('.randomize').hide();
 		$('.details').fadeIn('slow');
 		$('.respin').fadeIn('slow');
-	});
-	
-	$(document.body).on('click', '.respin', function() {
-	mixItUp();
-		//randomize again
 	});
 </script>
