@@ -10,6 +10,9 @@
 	</div>
 	<div class="drink">
 		<h1><b>{{drink.name}}</b></h1>
+		<span ng-if="drink" class="animate-if">
+		<i>Ingredients</i>
+		</span>
 		<div ng-repeat-start="item in drink.ingredients">
 			{{item.ingredient}}
 			<span ng-if="item.cl" class="animate-if">
@@ -21,13 +24,12 @@
 		</div>
 	</div>
 	<div class='ingredients row top-buffer' ng-repeat-end></div>
-	<button type="button" class='btn btn-info randomize' ng-click="drink=randomize()">Randomize!</button>
-	<button type="button" class='btn btn-primary respin' ng-click="drink=randomize()" style='display:none'>Retry!</button>
+	<button type="button" class='btn btn-danger randomize' ng-click="drink=randomize()"><span class="glyphicon glyphicon-play"></span> Randomize!</button>
+	<button type="button" class='btn btn-primary respin' ng-click="drink=randomize()" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Retry!</button>
 	</div>
 </div>
 
 <script>
-
 	$(document.body).on('click', '.randomize', function() {
 		$('.randomize').hide();
 		$('.details').fadeIn('slow');

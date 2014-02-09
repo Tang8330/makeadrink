@@ -1,6 +1,9 @@
 /* app css stylesheet */
+body{
+  background-color:#b0c4de;
+}
 .top-buffer {
-	margin-top:20px;
+  margin-top:20px;
 }
 .menu {
   list-style: none;
