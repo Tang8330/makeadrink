@@ -14,9 +14,18 @@
 		Not satisfied with your results? Try it again!
 	</div>
 	<div class="drink">
-	{{drink.name}}
-	<p>{{drink.ingredients}}</p></div>
-	<div class='ingredients'></div>
+		<b>{{drink.name}}</b>
+		<div ng-repeat-start="item in drink.ingredients">
+			{{item.ingredient}}
+			<span ng-if="item.cl" class="animate-if">
+			{{item.cl}} parts
+			</span>
+			{{ item.special }}
+		</div>
+		<div ng-repeat-end>
+		</div>
+	</div>
+	<div class='ingredients' ng-repeat-end></div>
 	<button type="button" class='btn btn-info randomize' ng-click="drink=randomize()">Randomize!</button>
 	<button type="button" class='btn btn-info respin' ng-click="drink=randomize()" style='display:none'>Retry!</button>
 	</div>
