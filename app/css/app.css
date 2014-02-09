@@ -1,6 +1,10 @@
 /* app css stylesheet */
 body{
-  background-color:#b0c4de;
+  background-color:#EDEDED !important;
+}
+
+a.no-underline{
+  text-decoration:none !important;
 }
 .top-buffer {
   margin-top:20px;
