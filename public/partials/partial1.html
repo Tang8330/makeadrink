@@ -13,14 +13,27 @@
 		<span ng-if="drink" class="animate-if">
 		<i>Ingredients</i>
 		</span>
-		<div ng-repeat-start="item in drink.ingredients">
-			{{item.ingredient}}
-			<span ng-if="item.cl" class="animate-if">
-			{{item.cl}} parts
+		<div ng-repeat-start="ingredient in drink.ingredients">
+			{{ingredient.ingredient}}
+			<span ng-if="ingredient.cl" class="animate-if">
+			{{ingredient.cl}} parts
 			</span>
-			{{ item.special }}
+			{{ingredient.special}}
 		</div>
 		<div ng-repeat-end>
+		</div>
+		<span ng-if="drink.garnish" class="animate-if">
+			<i>Garnish</i>
+		</span>
+		<div>
+			{{drink.garnish}}
+		</div>
+		</div>
+		<span ng-if="drink.preparation" class="animate-if">
+			<i>Preparation</i>
+		</span>
+		<div>
+			{{drink.preparation}}
 		</div>
 	</div>
 	<div class='ingredients row top-buffer' ng-repeat-end></div>

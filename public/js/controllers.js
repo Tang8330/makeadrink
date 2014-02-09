@@ -8,8 +8,8 @@ mixDatUp.controller('AlcoholicDrinksCtrl', ['$scope', '$http', function ($scope,
     $scope.alcoholicDrinks = data;
 	
 	$scope.randomize = function(){
-        var len = $scope.alcoholicDrinks.length;
-        var drink = $scope.alcoholicDrinks[Math.floor((Math.random()*len-1)+0)];
+        var len = ($scope.alcoholicDrinks.length)-1;
+        var drink = $scope.alcoholicDrinks[Math.floor((Math.random()*len)+0)];
 		return drink;
     }
   });
