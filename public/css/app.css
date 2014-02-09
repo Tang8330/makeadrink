@@ -1,4 +1,9 @@
 /* app css stylesheet */
+.navbar-form .form-control { 
+    display: inline-block;
+    width: auto; /*This is the issue*/
+    vertical-align: middle;
+}
 body{
   background-color:#EDEDED !important;
 }
