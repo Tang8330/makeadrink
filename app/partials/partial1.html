@@ -1,9 +1,4 @@
-<style>
-.top-buffer {
-	margin-top:20px;
-}
-</style>
-<div class='col-xs-12'>
+<div class='col-xs-12 text-center'>
 	<h2>Make your own drink!</h2>
 </div>
 
@@ -11,10 +6,10 @@
 
 	<div ng-controller="AlcoholicDrinksCtrl">
 	<div class='details' style='display:none'>
-		Not satisfied with your results? Try it again!
+		<i>Not satisfied with your results? Try it again!</i>
 	</div>
 	<div class="drink">
-		<b>{{drink.name}}</b>
+		<h1><b>{{drink.name}}</b></h1>
 		<div ng-repeat-start="item in drink.ingredients">
 			{{item.ingredient}}
 			<span ng-if="item.cl" class="animate-if">
@@ -25,9 +20,9 @@
 		<div ng-repeat-end>
 		</div>
 	</div>
-	<div class='ingredients' ng-repeat-end></div>
+	<div class='ingredients row top-buffer' ng-repeat-end></div>
 	<button type="button" class='btn btn-info randomize' ng-click="drink=randomize()">Randomize!</button>
-	<button type="button" class='btn btn-info respin' ng-click="drink=randomize()" style='display:none'>Retry!</button>
+	<button type="button" class='btn btn-primary respin' ng-click="drink=randomize()" style='display:none'>Retry!</button>
 	</div>
 </div>
 
