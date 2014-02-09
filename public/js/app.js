@@ -12,5 +12,5 @@ angular.module('MixDatUp', [
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/main', {templateUrl: 'partials/partial1.html', controller: 'AlcoholicDrinksCtrl'});
   $routeProvider.when('/about', {templateUrl: 'partials/partial2.html', controller: ''});
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/main'});
 }]);
