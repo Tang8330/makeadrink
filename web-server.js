@@ -23,6 +23,7 @@ app.configure(function(){
 	app.use(app.router);
 	app.use(express.static(path.join(__dirname, 'public')));
 	app.use( errorHandler.httpError(404) );
+	app.use( handler );
 });
 
 app.configure('development', function() {
