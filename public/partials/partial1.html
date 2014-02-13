@@ -9,32 +9,48 @@
 	</div>
 	<div class="drink">
 		<h1><b>{{drink.name}}</b></h1>
-		<span ng-if="drink" class="animate-if">
-		<i><b>Ingredients</b></i>
+		<span ng-if="drink.glass" class="animate-if col-xs-2 col-xs-offset-4">
+			<i><b>Glass</b></i>
+			<div>
+				{{drink.glass}}
+			</div>
+			<div class="row top-buffer"></div>
 		</span>
-		<div ng-repeat-start="ingredient in drink.ingredients">
-			{{ingredient.ingredient}}
-			<span ng-if="ingredient.cl" class="animate-if">
-			{{ingredient.cl}} parts
-			</span>
-			{{ingredient.special}}
-		</div>
-		<div ng-repeat-end>
-		</div>
-		<div class="row top-buffer"></div>
-		<span ng-if="drink.garnish" class="animate-if">
+		<span ng-if="drink.category" class="animate-if col-xs-2">
+			<i><b>Category</b></i>
+			<div>
+				{{drink.category}}
+			</div>
+			<div class="row top-buffer"></div>
+		</span>
+		<span ng-if="drink" class="animate-if col-xs-2 col-xs-offset-4">
+			<i><b>Ingredients</b></i>
+			<div ng-repeat-start="ingredient in drink.ingredients">
+				{{ingredient.ingredient}}
+				<div ng-if="ingredient.cl" class="animate-if">
+				{{ingredient.cl}} parts
+				</div>
+				{{ingredient.special}}
+			</div>
+			<div ng-repeat-end>
+			</div>
+			<div class="row top-buffer"></div>
+		</span>
+		<span ng-if="drink.garnish" class="animate-if col-xs-2">
 			<i><b>Garnish</b></i>
 			<div>
-			{{drink.garnish}}
+				{{drink.garnish}}
 			</div>
+			<div class="row top-buffer"></div>
 		</span>
 		</div>
-		<span ng-if="drink.preparation" class="animate-if">
+		<span ng-if="drink.preparation" class="animate-if col-xs-12">
 			<i><b>Preparation</b></i>
+			<div>
+				{{drink.preparation}}
+			</div>
+			<div class="row top-buffer"></div>
 		</span>
-		<div>
-			{{drink.preparation}}
-		</div>
 	</div>
 	<div class='row top-buffer ingredients' ng-repeat-end></div>
 	<button type="button" class='btn btn-danger randomize' ng-click="drink=randomize()"><span class="glyphicon glyphicon-play"></span> Randomize</button>
