@@ -1,69 +1,72 @@
 <div class='col-xs-12 text-center'>
-	<h2><b>Make A Drink!</b></h2>
+    <h2><b>Make A Drink!</b></h2>
 </div>
-
 <div class='col-xs-12 text-center'>
-	<div ng-controller="AlcoholicDrinksCtrl">
-	<div class='details' style='display:none'>
-		<i>Not satisfied with your results? Try it again!</i>
-	</div>
-	<div class="drink">
-		<h1><b>{{drink.name}}</b></h1>
-		<span ng-if="drink.glass" class="animate-if col-xs-2 col-xs-offset-4">
+    <button type="button" class='btn btn-danger randomize' ng-click="drink=randomize()"><span class="glyphicon glyphicon-play"></span> Randomize</button>
+    <button type="button" class='btn btn-primary respin' ng-click="drink=randomize()" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
+    <div ng-controller="AlcoholicDrinksCtrl">
+        <div class='details' style='display:none'>
+            <i>Not satisfied with your results? Try it again!</i>
+        </div>
+        <div class="drink">
+            <h1><b>{{drink.name}}</b></h1>
+            <span ng-if="drink.glass" class="animate-if col-xs-12">
 			<i><b>Glass</b></i>
 			<div>
 				{{drink.glass}}
 			</div>
 			<div class="row top-buffer"></div>
 		</span>
-		<span ng-if="drink.category" class="animate-if col-xs-2">
+            <span ng-if="drink.category" class="animate-if col-xs-12">
 			<i><b>Category</b></i>
 			<div>
 				{{drink.category}}
 			</div>
 			<div class="row top-buffer"></div>
 		</span>
-		<span ng-if="drink" class="animate-if col-xs-2 col-xs-offset-4">
-			<i><b>Ingredients</b></i>
-			<div ng-repeat-start="ingredient in drink.ingredients">
-				{{ingredient.ingredient}}
-				<div ng-if="ingredient.cl" class="animate-if">
-				{{ingredient.cl}} parts
-				</div>
-				{{ingredient.special}}
-			</div>
-			<div ng-repeat-end>
-			</div>
-			<div class="row top-buffer"></div>
-		</span>
-		<span ng-if="drink.garnish" class="animate-if col-xs-2">
+            <span ng-if="drink" class="animate-if col-xs-12">
+			<i><b>Ingredients</b></i><br/>
+			<span ng-repeat="ingredient in drink.ingredients">{{ingredient.ingredient}} {{ingredient.special}} {{$last ? '' : ', '}}</span>
+            <div ng-repeat-end>
+            </div>
+            <div class="row top-buffer"></div>
+            </span>
+            <span ng-if="drink.garnish" class="animate-if col-xs-12">
 			<i><b>Garnish</b></i>
 			<div>
 				{{drink.garnish}}
 			</div>
 			<div class="row top-buffer"></div>
 		</span>
-		</div>
-		<span ng-if="drink.preparation" class="animate-if col-xs-12">
+        </div>
+        <span ng-if="drink.preparation" class="animate-if col-xs-12">
 			<i><b>Preparation</b></i>
 			<div>
 				{{drink.preparation}}
 			</div>
 			<div class="row top-buffer"></div>
 		</span>
-	</div>
-	<div class='row top-buffer ingredients' ng-repeat-end></div>
-	<button type="button" class='btn btn-danger randomize' ng-click="drink=randomize()"><span class="glyphicon glyphicon-play"></span> Randomize</button>
-	<button type="button" class='btn btn-primary respin' ng-click="drink=randomize()" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
-	</div>
-	<div class='text-center'>
-		<a href="https://twitter.com/intent/tweet?button_hashtag=#MixDatUp" class="twitter-hashtag-button top-buffer" data-lang="en" data-related="jasoncosta">Tweet #MixDatUp</a>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>	
-	</div>
+    </div>
+    <div class='row top-buffer ingredients' ng-repeat-end></div>
+</div>
+<div class='text-center'>
+    <a href="https://twitter.com/intent/tweet?button_hashtag=#MixDatUp" class="twitter-hashtag-button top-buffer" data-lang="en" data-related="jasoncosta">Tweet #MixDatUp</a>
+    <script>
+    ! function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (!d.getElementById(id)) {
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }
+    }(document, "script", "twitter-wjs");
+    </script>
+</div>
 <script>
-	$(document.body).on('click', '.randomize', function() {
-		$('.randomize').hide();
-		$('.details').fadeIn('slow');
-		$('.respin').fadeIn('slow');
-	});
+$(document.body).on('click', '.randomize', function() {
+    $('.randomize').hide();
+    $('.details').fadeIn('slow');
+    $('.respin').fadeIn('slow');
+});
 </script>
