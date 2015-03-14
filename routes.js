@@ -1,14 +1,14 @@
-var Item = require('./models/item');
+var Item = require('./models/item'),
+    Order = require('./models/order');
 module.exports = function(app) {
 
     app.get('/home', function(req, res) {
         res.render('home');
     });
 
-
     /**
      * These 2 functions need update on the view render path
-    **/
+     **/
     app.post('/item/add', function(req, res) {
         Item.create(req.body, function(err, result) {
             if (err) {
@@ -34,6 +34,35 @@ module.exports = function(app) {
                 res.render('item', {
                     item: result
                 })
+            }
+        });
+    });
+    app.post('/order/add', function(req, res) {
+        Order.create(req.body, function(err, result) {
+            if (err) {
+                res.render('order', {
+                    message: err
+                });
+            } else {
+                res.render('order', {
+                    item: result
+                });
+            }
+        });
+    });
+
+    app.post('/order/update/:id', function(req, res) {
+        Order.update({
+            '_id': req.params.id
+        }, req.body, function(err, result) {
+            if (err) {
+                res.render('order', {
+                    message: err
+                });
+            } else {
+                res.render('order', {
+                    message: 'Updated'
+                });
             }
         });
     });
