@@ -6,11 +6,22 @@ module.exports = function(app) {
         res.render(req.params.home);
     });
 
+    qpp.get('/item/all', function(req, res) {
+        Item.findAll(function(err, result) {
+            if (err) {
+                res.render('allItems', {
+                    message : err
+                });
+            } else {
+                res.render('allItems', {
+                    items : result
+                });
+            }
+        });
     /**
      * These 2 functions need update on the view render path
      **/
-    app.post('/item/add', function(req, res) {
-        console.log('negus chan', JSON.stringify(req.body));    
+    app.post('/item/add', function(req, res) {   
         Item.create(req.body, function(err, result) {
             if (err) {
                 res.render('addItem', {
@@ -38,6 +49,19 @@ module.exports = function(app) {
             }
         });
     });
+    app.get('/item/id/:req.params.id', function(req, res) {
+        Item.findByID(req.params.id, function(err, result) {
+            if (err) {
+                res.render('item', {
+                    message: err
+                });
+            } else {
+                res.render('item', {
+                    item : result
+                });
+            }
+        });
+    });
     app.post('/order/add', function(req, res) {
         Order.create(req.body, function(err, result) {
             if (err) {
@@ -51,7 +75,6 @@ module.exports = function(app) {
             }
         });
     });
-
     app.post('/order/update/:id', function(req, res) {
         Order.update({
             '_id': req.params.id
