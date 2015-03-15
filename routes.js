@@ -49,6 +49,20 @@ module.exports = function(app) {
             }
         });
     });
+
+    app.get('/item/edit', function(req, res) {
+        Item.findAll(function(err, result) {
+            if (err) {
+                res.render('editItems', {
+                    message : err
+                });
+            } else {
+                res.render('editItems', {
+                    items : result
+                });
+            }
+        });
+    });
     /**
      * These 2 functions need update on the view render path
      **/
