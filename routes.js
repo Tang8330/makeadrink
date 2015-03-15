@@ -6,7 +6,7 @@ module.exports = function(app) {
         res.render(req.params.home);
     });
 
-    qpp.get('/item/all', function(req, res) {
+    app.get('/item/all', function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
                 res.render('allItems', {
@@ -18,6 +18,7 @@ module.exports = function(app) {
                 });
             }
         });
+    });
     /**
      * These 2 functions need update on the view render path
      **/
