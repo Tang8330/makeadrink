@@ -33,6 +33,22 @@ module.exports = function(app) {
             }
         });
     });
+
+    app.post('/item/edit/:id', function(req, res) {
+        Item.update({
+            _id: req.params.id
+        }, req.body, function(err, result) {
+            if (err) {
+                res.render('editItem', {
+                    message: err
+                });
+            } else {
+                res.render('editItem', {
+                    item: result
+                });
+            }
+        });
+    });
     /**
      * These 2 functions need update on the view render path
      **/
