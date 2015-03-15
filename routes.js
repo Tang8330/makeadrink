@@ -2,22 +2,23 @@ var Item = require('./models/item'),
     Order = require('./models/order');
 module.exports = function(app) {
 
-    app.get('/home', function(req, res) {
-        res.render('home');
+    app.get('/:home', function(req, res) {
+        res.render(req.params.home);
     });
 
     /**
      * These 2 functions need update on the view render path
      **/
     app.post('/item/add', function(req, res) {
+        console.log('negus chan', JSON.stringify(req.body));    
         Item.create(req.body, function(err, result) {
             if (err) {
-                res.render('item', {
+                res.render('addItem', {
                     message: err
                 });
             } else {
-                res.render('item', {
-                    item: result
+                res.render('addItem', {
+                    message: result
                 });
             }
         });
