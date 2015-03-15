@@ -21,6 +21,7 @@ module.exports = function(app) {
     });
 
     app.get('/item/edit/:id', function(req, res) {
+        console.log('here');
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('editItem', {
