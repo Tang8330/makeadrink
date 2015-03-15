@@ -25,8 +25,11 @@ var tempItem = mongoose.model('Item', Item);
 var create = function(request, cb) {
     var instance = new tempItem();
     var keys = Object.keys(request);
-    async.ForEach(key, function(el, callback) {
-        instance[key] = el;
+    console.log(keys);
+
+    async.forEach(keys, function(el, callback) {
+        instance[el] = request[el];
+        console.log(instance[el], request[el]);
         callback();
     }, function() {
         instance.save(function(err, result) {
