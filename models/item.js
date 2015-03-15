@@ -13,11 +13,11 @@ var Item = new Schema({
     desc: String,
     pictures: [],
     isDeleted: Boolean,
+    owner : String,
     dateAdded: {
         type: Date,
         default: Date.now
     }
-
 });
 
 var tempItem = mongoose.model('Item', Item);
@@ -69,6 +69,16 @@ var count = function(callback) {
         }
     });
 };
+
+var findByID = function(id, callback) {
+	tempItem.findById(id, function(err, result) {
+		if (err) {
+			callback(err, null);
+		} else {
+			callback(null, result);
+		}
+	});
+}
 
 module.exports = mongoose.model('Item', Item);
 module.exports.create = create;

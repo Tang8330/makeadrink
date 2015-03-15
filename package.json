@@ -4,10 +4,12 @@
   "repository": "https://github.com/angular/angular-seed",
   "devDependencies": {
     "express": "3.12.0",
-    "phantomjs": "~1.9",
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.9.2",
     "karma": "~0.10",
-    "karma-junit-reporter": "~0.1",
     "karma-jasmine": "~0.1",
+    "karma-junit-reporter": "~0.1",
+    "phantomjs": "~1.9",
     "protractor": "~0.17.0"
   },
   "dependencies": {
