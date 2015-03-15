@@ -10,11 +10,25 @@ module.exports = function(app) {
         Item.findAll(function(err, result) {
             if (err) {
                 res.render('allItems', {
-                    message : err
+                    message: err
                 });
             } else {
                 res.render('allItems', {
-                    items : result
+                    items: result
+                });
+            }
+        });
+    });
+
+    app.get('/item/edit/:id', function(req, res) {
+        Item.findByID(req.params.id, function(err, result) {
+            if (err) {
+                res.render('editItem', {
+                    message: err
+                });
+            } else {
+                res.render('editItem', {
+                    item: result
                 });
             }
         });
@@ -22,7 +36,7 @@ module.exports = function(app) {
     /**
      * These 2 functions need update on the view render path
      **/
-    app.post('/item/add', function(req, res) {   
+    app.post('/item/add', function(req, res) {
         Item.create(req.body, function(err, result) {
             if (err) {
                 res.render('addItem', {
@@ -58,7 +72,7 @@ module.exports = function(app) {
                 });
             } else {
                 res.render('item', {
-                    item : result
+                    item: result
                 });
             }
         });
