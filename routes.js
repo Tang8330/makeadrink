@@ -55,11 +55,11 @@ module.exports = function(app) {
         Item.findAll(function(err, result) {
             if (err) {
                 res.render('editItems', {
-                    message : err
+                    message: err
                 });
             } else {
                 res.render('editItems', {
-                    items : result
+                    items: result
                 });
             }
         });
@@ -121,22 +121,36 @@ module.exports = function(app) {
             }
         });
     });
-    app.post('/order/update/:id', function(req, res) {
-        Order.update({
-            '_id': req.params.id
-        }, req.body, function(err, result) {
-            if (err) {
-                res.render('order', {
-                    message: err
-                });
-            } else {
-                res.render('order', {
-                    message: 'Updated'
-                });
-            }
-        });
-    });
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
     });
+
+    app.post('/order/update/:id', function(req, res) {
+        Order.findByID(req.params.id, function(err, result) {
+            if (err) {
+                res.send(500, err);
+            } else {
+                if (!result || result.length === 0) {
+                    Order.create(req.body, function(err1, result1) {
+                        if (err1) {
+                            res.send(500, err1);
+                        } else {
+                            res.send(200, result1);
+                        }
+                    });
+                } else {
+                    Order.update({
+                        '_id': req.params.id
+                    }, req.body, function(err2, result2) {
+                        if (err2) {
+                            res.send(500, err2);
+                        } else {
+                            res.send(200, result2);
+                        }
+                    });
+                }
+            }
+        });
+    });
+
 }

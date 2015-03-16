@@ -68,8 +68,18 @@ var count = function(callback) {
     });
 };
 
+var findByID = function(id, callback) {
+    tempOrder.findById(id, function(err, result) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
+}
 module.exports = mongoose.model('Order', Order);
 module.exports.create = create;
 module.exports.update = update;
 module.exports.findAll = findAll;
 module.exports.count = count;
+module.exports.findByID = findByID;
