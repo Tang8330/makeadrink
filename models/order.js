@@ -2,11 +2,18 @@ var mongoose = require('mongoose'),
     async = require('async'),
     Schema = mongoose.Schema;
 
+var ORDERSTATUS_INPROGRESS = 0,
+    ORDERSTATUS_SENT = 1,
+    ORDERSTATUS_DELIVERED = 2,
+    ORDERSTATUS_PAID = 3,
+    ORDERSTATUS_DEFERRED = 4;
+
 var Order = new Schema({
     name: String,
-    party : String,
-    items : [],
+    party: String,
+    items: [],
     isDeleted: Boolean,
+    statusCode: Number,
     dateAdded: {
         type: Date,
         default: Date.now
