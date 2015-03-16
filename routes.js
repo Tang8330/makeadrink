@@ -1,8 +1,14 @@
 var Item = require('./models/item'),
     Order = require('./models/order');
 module.exports = function(app) {
+    function randomNumber() {
+        return Math.floor(Math.random() * 90000) + 10000;
+    }
 
     app.get('/:home', function(req, res) {
+        if (req.params.home === 'home') {
+            res.cookie('table_number', randomNumber());
+        }
         res.render(req.params.home);
     });
 
