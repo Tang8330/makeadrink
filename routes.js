@@ -131,7 +131,12 @@ module.exports = function(app) {
         res.sendfile('app/index.html');
     });
 
-    app.post('/order/update/:id', function(req, res) {
+    app.post('/order/update', function(req, res) {
+        var tableNumber = req.cookies.table_number;
+        if (table_number === undefined) {
+            tableNumber = randomNumber();
+            res.cookie('table_number', tableNumber);
+        }
         Order.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.send(500, err);
