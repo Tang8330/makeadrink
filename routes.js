@@ -7,9 +7,20 @@ module.exports = function(app) {
     }
 
     app.get('/account/register', function(req, res) {
-        Account.register(new Account({
+        if (req.body.username && req.body.password) {
+            Account.register(new Account({
+                username: req.body.username
+            }), req.body.password, function(err, account) {
+                if (err) {
+                    res.render('register', message: err);
+                } else {
+                    res.render('register', message: 'Registered!');
+                }
+            });
+        } else {
+            res.render('register', message: 'No username or password');
+        }
 
-        }));
     });
 
     app.get('/:home', function(req, res) {
