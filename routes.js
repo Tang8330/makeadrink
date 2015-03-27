@@ -1,9 +1,16 @@
 var Item = require('./models/item'),
-    Order = require('./models/order');
+    Order = require('./models/order'),
+    Account = require('./models/account');
 module.exports = function(app) {
     function randomNumber() {
         return Math.floor(Math.random() * 90000) + 10000;
     }
+
+    app.get('/account/register', function(req, res) {
+        Account.register(new Account({
+
+        }));
+    });
 
     app.get('/:home', function(req, res) {
         if (req.params.home === 'home') {
@@ -27,7 +34,6 @@ module.exports = function(app) {
     });
 
     app.get('/item/edit/:id', function(req, res) {
-        console.log('here');
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('editItem', {

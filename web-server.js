@@ -2,7 +2,10 @@ var express = require('express'),
     path = require('path'),
     mongoose = require('mongoose'),
     exphbs = require('express3-handlebars'),
-    http = require('http');
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    http = require('http'),
+    Account = require('./models/account');
 
 var app = express();
 
@@ -33,6 +36,34 @@ app.configure('development', function() {
 });
 app.configure('production', function() {
     app.use(express.errorHandler());
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+    Account.findByUser({
+        username: username
+    }, function(err, user) {
+        if (err) {
+            return done(err);
+        } else if (!user) {
+            return done(null, false, {
+                message: 'Incorrect Username'
+            });
+        } else if (!user.validPassword(password)) {
+            return done(null, false, {
+                message: 'Incorrect Password'
+            });
+        } else {
+            return done(null, user);
+        }
+    });
+}));
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+passport.deserializeUser(function(id, done) {
+    Account.findById(id, function(err, user) {
+        done(err, user);
+    });
 });
 
 mongoose.connect('mongodb://localhost/mixdatup');
