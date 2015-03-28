@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose'),
     Schema = mongoose.Schema,
+    passport = require('passport'),
     async = require('async');
 
 var Account = new Schema({

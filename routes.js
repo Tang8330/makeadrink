@@ -15,7 +15,7 @@ function randomNumber() {
 }
 module.exports = function(app) {
     'use strict';
-    app.post('/login',
+    app.post('/account/login',
         passport.authenticate('local', {
             successRedirect: '/',
             failureRedirect: '/account/login'
@@ -92,11 +92,11 @@ module.exports = function(app) {
     app.get('/item/all', function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
-                res.render('allItems', {
+                res.render('restaurant/allItems', {
                     message: err
                 });
             } else {
-                res.render('allItems', {
+                res.render('restaurant/allItems', {
                     items: result
                 });
             }
@@ -106,11 +106,11 @@ module.exports = function(app) {
     app.get('/item/edit/:id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
-                res.render('editItem', {
+                res.render('restaurant/editItem', {
                     message: err
                 });
             } else {
-                res.render('editItem', {
+                res.render('restaurant/editItem', {
                     item: result
                 });
             }
@@ -125,11 +125,11 @@ module.exports = function(app) {
             _id: req.params.id
         }, conditions, function(err, result) {
             if (err) {
-                res.render('editItem', {
+                res.render('restaurant/editItem', {
                     message: err
                 });
             } else {
-                res.render('editItem', {
+                res.render('restaurant/editItem', {
                     item: result
                 });
             }
@@ -139,11 +139,11 @@ module.exports = function(app) {
     app.get('/item/edit', function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
-                res.render('editItems', {
+                res.render('restaurant/editItems', {
                     message: err
                 });
             } else {
-                res.render('editItems', {
+                res.render('restaurant/editItems', {
                     items: result
                 });
             }
@@ -159,11 +159,11 @@ module.exports = function(app) {
         conditions.lastModifiedDate = new Date();
         Item.create(conditions, function(err, result) {
             if (err) {
-                res.render('addItem', {
+                res.render('restaurant/addItem', {
                     message: err
                 });
             } else {
-                res.render('addItem', {
+                res.render('restaurant/addItem', {
                     message: result
                 });
             }
@@ -172,11 +172,11 @@ module.exports = function(app) {
     app.get('/item/id/:req.params.id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
-                res.render('item', {
+                res.render('customer/item', {
                     message: err
                 });
             } else {
-                res.render('item', {
+                res.render('customer/item', {
                     item: result
                 });
             }
@@ -189,11 +189,11 @@ module.exports = function(app) {
         conditions.owner = req.user;
         Order.create(conditions, function(err, result) {
             if (err) {
-                res.render('order', {
+                res.render('restaurant/order', {
                     message: err
                 });
             } else {
-                res.render('order', {
+                res.render('restaurant/order', {
                     item: result
                 });
             }
@@ -202,11 +202,11 @@ module.exports = function(app) {
     app.get('/order/all', function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
-                res.render('allOrders', {
+                res.render('restaurant/allOrders', {
                     message: err
                 });
             } else {
-                res.render('allOrders', {
+                res.render('restaurant/allOrders', {
                     orders: result
                 });
             }
@@ -220,11 +220,11 @@ module.exports = function(app) {
     app.get('/order/id/:req.params.id', function(req, res) {
         Order.findByID(req.params.id, function(err, result) {
             if (err) {
-                res.render('order', {
+                res.render('restaurant/order', {
                     message: err
                 });
             } else {
-                res.render('order', {
+                res.render('restaurant/order', {
                     order: result
                 });
             }
