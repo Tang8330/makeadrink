@@ -6,6 +6,7 @@ Robin:
 		GET - /menu/customer (all items)
 		GET/POST - /item/edit/:id (specific id)
 		GET - /item/view/:id (specific id)
+	Delete (or comment out) the home path in routes.js
 
 Reese:
 
