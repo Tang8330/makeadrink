@@ -1,7 +1,13 @@
 var Item = require('./models/item'),
     Order = require('./models/order'),
     Account = require('./models/account'),
-    passport = require('passport');
+    passport = require('passport'),
+    Promise = require('promise');
+
+var titles = {
+    'register': 'Mix Dat Up | Register',
+    'login': 'Mix Dat Up | Login'
+}
 
 function randomNumber() {
     'use strict';
@@ -15,32 +21,62 @@ module.exports = function(app) {
             failureRedirect: '/account/login'
         }));
     app.get('/account/login', function(req, res) {
-        res.render('login');
+        res.render('login', {
+            'title': titles.login
+        });
     });
     app.get('/account/register', function(req, res) {
         res.render('register', {
-            'title': 'Mix Dat Up |Register'
+            'title': titles.register
         });
     });
     app.post('/account/register', function(req, res) {
         if (req.body.username && req.body.password) {
-            Account.register(new Account({
-                username: req.body.username
-            }), req.body.password, function(err, account) {
-                if (err) {
-                    res.render('register', {
-                        message: err
+            var p = new Promise(function(resolve, reject) {
+                Account.findByUser(req.body.username, function(err, result) {
+                    if (err) {
+                        reject(err);
+                    } else if (result.length === 0) {
+                        resolve(false); //doesn't exist
+                    } else {
+                        resolve(true);
+                    }
+                });
+
+            });
+            p.then(function success(data) {
+                if (data === false) {
+                    Account.register(new Account({
+                        username: req.body.username
+                    }), req.body.password, function(err) {
+                        if (err) {
+                            res.render('register', {
+                                'err': err,
+                                'title': titles.register
+                            });
+                        } else {
+                            res.render('register', {
+                                'message': 'Registered!',
+                                'title': titles.register
+                            });
+                        }
                     });
                 } else {
                     res.render('register', {
-                        message: 'Registered!',
-                        account: account
+                        'err': 'Account already exists',
+                        'title': titles.register
                     });
                 }
+            }, function error(e) {
+                res.render('register', {
+                    'err': e,
+                    'title': titles.register
+                });
             });
         } else {
             res.render('register', {
-                message: 'No username or password'
+                'err': 'No username or password',
+                'title': titles.register
             });
         }
 

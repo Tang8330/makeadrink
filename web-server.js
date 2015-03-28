@@ -6,7 +6,6 @@ var express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     http = require('http'),
     logger = require('morgan'),
-    Account = require('./models/account'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     cookieSession = require('cookie-session');
@@ -24,50 +23,30 @@ app.engine('html', exphbs({
     defaultLayout: 'main.html'
 }));
 app.set('view engine', 'html');
-app.use(logger('dev'));
-app.configure(function() {
-    app.set('views', __dirname + '/views');
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({
-        extended: true
-    }));
-    app.use(cookieParser());
-    app.use(cookieSession({
-        secret: 'robinisthebest'
-    }));
-    app.use(passport.initialize());
-    app.use(passport.session());
-    app.use(app.router);
-    app.use(express.static(path.join(__dirname, 'public')));
-    app.use(errorHandler.httpError(404));
-    app.use(handler);
-});
+//app.use(logger('dev'));
+app.set('views', __dirname + '/views');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(cookieParser());
+app.use(cookieSession({
+    secret: 'robinisthebest'
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(errorHandler.httpError(404));
+app.use(handler);
 app.configure('development', function() {
     app.use(express.errorHandler());
 });
 app.configure('production', function() {
     app.use(express.errorHandler());
 });
-
-passport.use(new LocalStrategy(function(username, password, done) {
-    Account.findByUser({
-        username: username
-    }, function(err, user) {
-        if (err) {
-            return done(err);
-        } else if (!user) {
-            return done(null, false, {
-                message: 'Incorrect Username'
-            });
-        } else if (!user.validPassword(password)) {
-            return done(null, false, {
-                message: 'Incorrect Password'
-            });
-        } else {
-            return done(null, user);
-        }
-    });
-}));
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.auth()));
 passport.serializeUser(function(user, done) {
     done(null, user._id);
 });
