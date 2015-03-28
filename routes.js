@@ -82,6 +82,7 @@ module.exports = function(app) {
 
     });
 
+    
     app.get('/:home', function(req, res) {
         if (req.params.home === 'home') {
             res.cookie('table_number', randomNumber());
@@ -89,14 +90,14 @@ module.exports = function(app) {
         res.render(req.params.home);
     });
 
-    app.get('/item/all', function(req, res) {
+    app.get('/menu', function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
-                res.render('restaurant/allItems', {
-                    message: err
+                res.render('menu', {
+                    err: err
                 });
             } else {
-                res.render('restaurant/allItems', {
+                res.render('menu', {
                     items: result
                 });
             }
@@ -148,6 +149,10 @@ module.exports = function(app) {
                 });
             }
         });
+    });
+
+    app.get('/item/add', function(req, res) {
+        res.render('restaurant/addItem');
     });
     /**
      * These 2 functions need update on the view render path
