@@ -18,7 +18,9 @@ module.exports = function(app) {
         res.render('login');
     });
     app.get('/account/register', function(req, res) {
-        res.render('register');
+        res.render('register', {
+            'title': 'Mix Dat Up |Register'
+        });
     });
     app.post('/account/register', function(req, res) {
         if (req.body.username && req.body.password) {

@@ -5,6 +5,7 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     http = require('http'),
+    logger = require('morgan'),
     Account = require('./models/account'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
@@ -23,7 +24,7 @@ app.engine('html', exphbs({
     defaultLayout: 'main.html'
 }));
 app.set('view engine', 'html');
-
+app.use(logger('dev'));
 app.configure(function() {
     app.set('views', __dirname + '/views');
     app.use(bodyParser.json());
