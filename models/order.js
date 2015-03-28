@@ -14,6 +14,9 @@ var Order = new Schema({
     items: [],
     isDeleted: Boolean,
     statusCode: Number,
+    owner : String,
+    lastModifiedBy : String,
+    lastModifiedDate: Date,
     dateAdded: {
         type: Date,
         default: Date.now

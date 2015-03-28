@@ -13,7 +13,9 @@ var Item = new Schema({
     desc: String,
     pictures: [],
     isDeleted: Boolean,
-    owner : String,
+    owner: String,
+    lastModifiedBy: String,
+    lastModifiedDate: Date,
     dateAdded: {
         type: Date,
         default: Date.now
@@ -25,8 +27,6 @@ var tempItem = mongoose.model('Item', Item);
 var create = function(request, cb) {
     var instance = new tempItem();
     var keys = Object.keys(request);
-    console.log(keys);
-
     async.forEach(keys, function(el, callback) {
         instance[el] = request[el];
         console.log(instance[el], request[el]);
@@ -37,8 +37,8 @@ var create = function(request, cb) {
         });
     });
 }
-var update = function(conditions, request, callback) {
-    tempItem.findOneAndUpdate(conditions, request, function(err, result) {
+var update = function(conditions, callback) {
+    tempItem.findOneAndUpdate(conditions, function(err, result) {
         if (err) {
             callback(err, null);
         } else {
@@ -72,13 +72,13 @@ var count = function(callback) {
 
 var findByID = function(id, callback) {
     console.log(id);
-	tempItem.findById(id, function(err, result) {
-		if (err) {
-			callback(err, null);
-		} else {
-			callback(null, result);
-		}
-	});
+    tempItem.findById(id, function(err, result) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, result);
+        }
+    });
 }
 
 module.exports = mongoose.model('Item', Item);

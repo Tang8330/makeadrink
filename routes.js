@@ -12,13 +12,19 @@ module.exports = function(app) {
                 username: req.body.username
             }), req.body.password, function(err, account) {
                 if (err) {
-                    res.render('register', message: err);
+                    res.render('register', {
+                        message: err
+                    });
                 } else {
-                    res.render('register', message: 'Registered!');
+                    res.render('register', {
+                        message: 'Registered!'
+                    });
                 }
             });
         } else {
-            res.render('register', message: 'No username or password');
+            res.render('register', {
+                message: 'No username or password'
+            });
         }
 
     });
@@ -59,9 +65,12 @@ module.exports = function(app) {
     });
 
     app.post('/item/edit/:id', function(req, res) {
+        var conditions = req.body;
+        conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedDate = new Date();
         Item.update({
             _id: req.params.id
-        }, req.body, function(err, result) {
+        }, conditions, function(err, result) {
             if (err) {
                 res.render('editItem', {
                     message: err
@@ -91,7 +100,11 @@ module.exports = function(app) {
      * These 2 functions need update on the view render path
      **/
     app.post('/item/add', function(req, res) {
-        Item.create(req.body, function(err, result) {
+        var conditions = req.body;
+        conditions.owner = req.user;
+        conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedDate = new Date();
+        Item.create(conditions, function(err, result) {
             if (err) {
                 res.render('addItem', {
                     message: err
@@ -104,9 +117,12 @@ module.exports = function(app) {
         });
     });
     app.post('/item/update/:id', function(req, res) {
+        var conditions = req.body;
+        conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedDate = new Date();
         Item.update({
             '_id': req.params.id
-        }, req.body, function(err, result) {
+        }, conditions, function(err, result) {
             if (err) {
                 res.render('item', {
                     message: err
@@ -132,7 +148,11 @@ module.exports = function(app) {
         });
     });
     app.post('/order/add', function(req, res) {
-        Order.create(req.body, function(err, result) {
+        var conditions = req.body;
+        conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedDate = new Date();
+        conditions.owner = req.user;
+        Order.create(conditions, function(err, result) {
             if (err) {
                 res.render('order', {
                     message: err
@@ -149,7 +169,10 @@ module.exports = function(app) {
     });
 
     app.post('/order/update', function(req, res) {
-        var tableNumber = req.cookies.table_number;
+        var tableNumber = req.cookies.table_number,
+            conditions = req.body;
+        conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedDate = new Date();
         if (table_number === undefined) {
             tableNumber = randomNumber();
             res.cookie('table_number', tableNumber);
@@ -159,7 +182,8 @@ module.exports = function(app) {
                 res.send(500, err);
             } else {
                 if (!result || result.length === 0) {
-                    Order.create(req.body, function(err1, result1) {
+                    conditions.owner = req.user;
+                    Order.create(conditions, function(err1, result1) {
                         if (err1) {
                             res.send(500, err1);
                         } else {
@@ -169,7 +193,7 @@ module.exports = function(app) {
                 } else {
                     Order.update({
                         '_id': req.params.id
-                    }, req.body, function(err2, result2) {
+                    }, req.body, req.user, function(err2, result2) {
                         if (err2) {
                             res.send(500, err2);
                         } else {
