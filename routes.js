@@ -119,24 +119,6 @@ module.exports = function(app) {
             }
         });
     });
-    app.post('/item/update/:id', function(req, res) {
-        var conditions = req.body;
-        conditions.lastModifiedBy = req.user;
-        conditions.lastModifiedDate = new Date();
-        Item.update({
-            '_id': req.params.id
-        }, conditions, function(err, result) {
-            if (err) {
-                res.render('item', {
-                    message: err
-                });
-            } else {
-                res.render('item', {
-                    item: result
-                });
-            }
-        });
-    });
     app.get('/item/id/:req.params.id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
@@ -167,11 +149,24 @@ module.exports = function(app) {
             }
         });
     });
+    app.get('/order/all', function(req, res) {
+        Order.findAll(function(err, result) {
+            if (err) {
+                res.render('order', {
+                    message: err
+                });
+            } else {
+                res.render('order', {
+                    orders: result
+                });
+            }
+        });
+    });
+
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
     });
-
-    app.post('/order/update', function(req, res) {
+    app.post('/order/edit/:id', function(req, res) {
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
         conditions.lastModifiedBy = req.user;

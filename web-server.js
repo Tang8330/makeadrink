@@ -5,7 +5,11 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     http = require('http'),
-    Account = require('./models/account');
+    Account = require('./models/account'),
+    cookieParser = require('cookie-parser'),
+    bodyParser = require('body-parser'),
+    cookieSession = require('cookie-session');
+
 
 var app = express();
 
@@ -22,10 +26,14 @@ app.set('view engine', 'html');
 
 app.configure(function() {
     app.set('views', __dirname + '/views');
-    app.use(express.bodyParser());
-    app.use(express.methodOverride());
-    app.use(express.cookieParser('192829ssajmkkol'));
-    app.use(express.session());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(cookieParser());
+    app.use(cookieSession({
+        secret: 'robinisthebest'
+    }));
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(app.router);
