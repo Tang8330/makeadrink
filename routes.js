@@ -1,6 +1,7 @@
 var Item = require('./models/item'),
     Order = require('./models/order'),
-    Account = require('./models/account');
+    Account = require('./models/account'),
+    passport = require('passport');
 
 function randomNumber() {
     'use strict';
@@ -8,7 +9,18 @@ function randomNumber() {
 }
 module.exports = function(app) {
     'use strict';
+    app.post('/login',
+        passport.authenticate('local', {
+            successRedirect: '/',
+            failureRedirect: '/account/login'
+        }));
+    app.get('/account/login', function(req, res) {
+        res.render('login');
+    });
     app.get('/account/register', function(req, res) {
+        res.render('register');
+    });
+    app.post('/account/register', function(req, res) {
         if (req.body.username && req.body.password) {
             Account.register(new Account({
                 username: req.body.username
@@ -152,11 +164,11 @@ module.exports = function(app) {
     app.get('/order/all', function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
-                res.render('order', {
+                res.render('allOrders', {
                     message: err
                 });
             } else {
-                res.render('order', {
+                res.render('allOrders', {
                     orders: result
                 });
             }
@@ -205,7 +217,7 @@ module.exports = function(app) {
                 } else {
                     Order.update({
                         '_id': req.params.id
-                    }, req.body, req.user, function(err2, result2) {
+                    }, conditions, req.user, function(err2, result2) {
                         if (err2) {
                             res.send(500, err2);
                         } else {
