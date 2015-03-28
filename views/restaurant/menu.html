@@ -1,0 +1,22 @@
+<h2>Menu</h2>
+<div>
+	<form action="/menu" method="GET">
+		<table class="table table-striped">
+			<tr>
+				<td>Name</td>
+				<td>Price</td>
+				<td>Description</td>
+				<td></td>
+			</tr>
+			{{#each items}}
+				<tr>
+					<td>{{name}}</td>
+					<td>{{price}}</td>
+					<td>{{desc}}</td>
+					<td><a class="btn btn-default" href="/item/edit/{{id}}" role="button">Edit</a></td>
+				</tr>
+			{{/each}}
+		</table>
+	</form>
+	<a class="btn btn-default" href="/item/add" role="button">Create</a>
+</div>
