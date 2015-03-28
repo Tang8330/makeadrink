@@ -1,0 +1,27 @@
+<div>
+	<form action="/item/all" method="POST">
+	{{#each items}}
+		<ul>
+			{{{.}}}
+			<label>Quantity<input type="number" step="1" value="0" id="quantity"></label>
+			<label>Special Request<input type="text" id="specReq"></label>
+			<button type="submit">Add</button>
+		</ul>
+	{{/each}}
+</div>
+<div id="form-output">
+</div>
+
+<script src="/../../public/js/utility" type="text/javascript"></script>
+<script>
+	var data = {
+		"id": {{item.id}},
+		"quantity": utility.getElementValue("#quantity"),
+		"specReq": utility.getElementValue("#specReq")
+	};
+
+	$.post("/order/update", {data: JSON.stringify(data)}, function(err, result) {
+		//blah blah blah
+		$("#form-output").html(result);
+	});
+</script>
