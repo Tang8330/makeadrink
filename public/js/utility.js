@@ -1,8 +1,10 @@
-var utiity = {
+var utility = {
 
-	getElement : function(id) {
-		return Document.getElementByID(id);
+	getElementValueByID : function(id) {
+		return document.getElementById(id).value;
+	},	
+	getElementValueByClassName : function(className) {
+		return document.getElementValueByClassName(className)[0].value;
 	}
-	
+
 }
-return utility;
