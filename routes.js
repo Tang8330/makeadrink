@@ -1,11 +1,13 @@
 var Item = require('./models/item'),
     Order = require('./models/order'),
     Account = require('./models/account');
-module.exports = function(app) {
-    function randomNumber() {
-        return Math.floor(Math.random() * 90000) + 10000;
-    }
 
+function randomNumber() {
+    'use strict';
+    return Math.floor(Math.random() * 90000) + 10000;
+}
+module.exports = function(app) {
+    'use strict';
     app.get('/account/register', function(req, res) {
         if (req.body.username && req.body.password) {
             Account.register(new Account({
@@ -17,7 +19,8 @@ module.exports = function(app) {
                     });
                 } else {
                     res.render('register', {
-                        message: 'Registered!'
+                        message: 'Registered!',
+                        account: account
                     });
                 }
             });
@@ -130,7 +133,7 @@ module.exports = function(app) {
             } else {
                 res.render('item', {
                     item: result
-                })
+                });
             }
         });
     });
@@ -173,7 +176,7 @@ module.exports = function(app) {
             conditions = req.body;
         conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
-        if (table_number === undefined) {
+        if (tableNumber === undefined) {
             tableNumber = randomNumber();
             res.cookie('table_number', tableNumber);
         }
@@ -205,4 +208,4 @@ module.exports = function(app) {
         });
     });
 
-}
+};
