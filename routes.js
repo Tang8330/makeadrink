@@ -166,6 +166,20 @@ module.exports = function(app) {
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
     });
+
+    app.get('/order/id/:req.params.id', function(req, res) {
+        Order.findByID(req.params.id, function(err, result) {
+            if (err) {
+                res.render('order', {
+                    message: err
+                });
+            } else {
+                res.render('order', {
+                    order: result
+                });
+            }
+        });
+    });
     app.post('/order/edit/:id', function(req, res) {
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
