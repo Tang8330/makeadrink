@@ -9,7 +9,8 @@ var Item = require('./models/item'),
 var titles = {
     'register': 'Mix Dat Up | Register',
     'login': 'Mix Dat Up | Login',
-    'menu': 'Mix Dat Up | Menu'
+    'menu': 'Mix Dat Up | Menu',
+    'editItem': 'Mix Dat Up | Edit Item'
 };
 
 function randomNumber() {
@@ -156,7 +157,6 @@ module.exports = function(app) {
             res.render('restaurant/editItem', {
                 message: e
             });
-
         });
     });
 
@@ -185,18 +185,38 @@ module.exports = function(app) {
         conditions.owner = req.user;
         conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
-        Item.create(conditions, function(err, result) {
-            if (err) {
-                res.render('restaurant/addItem', {
-                    message: err
+        var p = new Promise(function(resolve, reject) {
+            Item.create(conditions, function(err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+        p.then(function success(result) {
+            fs.readFile(req.files.file.path, function(err, data) {
+                var folder = path.join('assets', result._id, req.files.file.originalFilename),
+                    pathNew = path.join(__dirname, 'public', folder);
+                fs.writeFile(pathNew, data, function(error) {
+                    if (error) {
+                        res.render('restaurant/editItem', {
+                            message: error
+                        });
+                    } else {
+                        res.render('restaurant/editItem', {
+                            item: result
+                        });
+                    }
                 });
-            } else {
-                res.render('restaurant/addItem', {
-                    message: result
-                });
-            }
+            });
+        }, function error(e) {
+            res.render('restaurant/editItem', {
+                message: e
+            });
         });
     });
+
     app.get('/item/id/:req.params.id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
