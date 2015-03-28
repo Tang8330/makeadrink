@@ -10,7 +10,7 @@ var titles = {
     'register': 'Mix Dat Up | Register',
     'login': 'Mix Dat Up | Login',
     'menu': 'Mix Dat Up | Menu'
-}
+};
 
 function randomNumber() {
     'use strict';
@@ -136,18 +136,18 @@ module.exports = function(app) {
                 }
             });
         });
-        p.then(function success(data) {
+        p.then(function success(result) {
             fs.readFile(req.files.file.path, function(err, data) {
-                var folder = path.join('assets', data._id, req.files.file.originalFilename),
+                var folder = path.join('assets', result._id, req.files.file.originalFilename),
                     pathNew = path.join(__dirname, 'public', folder);
                 fs.writeFile(pathNew, data, function(error) {
-                    if (err) {
+                    if (error) {
                         res.render('restaurant/editItem', {
-                            message: e
+                            message: error
                         });
                     } else {
                         res.render('restaurant/editItem', {
-                            item: data
+                            item: result
                         });
                     }
                 });
