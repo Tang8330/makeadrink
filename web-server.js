@@ -23,22 +23,24 @@ app.engine('html', exphbs({
     defaultLayout: 'main.html'
 }));
 app.set('view engine', 'html');
-//app.use(logger('dev'));
-app.set('views', __dirname + '/views');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(cookieParser());
-app.use(cookieSession({
-    secret: 'robinisthebest'
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(errorHandler.httpError(404));
-app.use(handler);
+app.configure(function() {
+    //app.use(logger('dev'));
+    app.set('views', __dirname + '/views');
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
+    app.use(cookieParser());
+    app.use(cookieSession({
+        secret: 'robinisthebest'
+    }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(app.router);
+    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(errorHandler.httpError(404));
+    app.use(handler);
+});
 app.configure('development', function() {
     app.use(express.errorHandler());
 });
@@ -47,14 +49,8 @@ app.configure('production', function() {
 });
 var Account = require('./models/account');
 passport.use(new LocalStrategy(Account.auth()));
-passport.serializeUser(function(user, done) {
-    done(null, user._id);
-});
-passport.deserializeUser(function(id, done) {
-    Account.findById(id, function(err, user) {
-        done(err, user);
-    });
-});
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
 
 mongoose.connect('mongodb://localhost/mixdatup');
 require('./routes.js')(app);

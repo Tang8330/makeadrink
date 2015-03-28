@@ -1,7 +1,6 @@
 var mongoose = require('mongoose'),
     passportLocalMongoose = require('passport-local-mongoose'),
     Schema = mongoose.Schema,
-    passport = require('passport'),
     async = require('async');
 
 var Account = new Schema({
@@ -14,6 +13,20 @@ var Account = new Schema({
 Account.plugin(passportLocalMongoose);
 var tempAccount = mongoose.model('Account', Account);
 
+var auth = function() {
+    var self = this;
+    return function(username, password, cb) {
+        self.findByUser(username, function(err, user) {
+            if (err) {
+                return cb(err);
+            } else if (user.length === 0) {
+                return cb(null, false);
+            } else {
+                return user[0].authenticate(password, cb);
+            }
+        });
+    }
+};
 var findByUser = function(username, callback) {
     tempAccount.find({
         'username': username,
@@ -81,24 +94,10 @@ var findByID = function(id, callback) {
     });
 }
 
-var auth = function() {
-    var self = this;
-    return function(username, password, cb) {
-        self.findByUser(username, function(err, user) {
-            if (err) {
-                return cb(err);
-            } else if (user.length === 0) {
-                return cb(null, false);
-            } else {
-                return user.authenticate(password, cb);
-            }
-        });
-    }
-}
 module.exports = mongoose.model('Account', Account);
+module.exports.auth = auth;
 module.exports.findByUser = findByUser;
 module.exports.create = create;
 module.exports.update = update;
 module.exports.findAll = findAll;
 module.exports.count = count;
-module.exports.auth = auth;
