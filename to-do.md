@@ -2,11 +2,11 @@
 Robin:
 
 	Modify routes.js with the following paths:
-		GET - /menu/restaurant (all items)
+		GET - /menu/restaurant (all items) - Done
 		GET - /menu/customer (all items)
-		GET/POST - /item/edit/:id (specific id)
-		GET - /item/view/:id (specific id)
-	Delete (or comment out) the home path in routes.js
+		GET/POST - /item/edit/:id (specific id) - Done
+		GET - /item/view/:id (specific id) - Done
+	Delete (or comment out) the home path in routes.js - Done
 
 Reese:
 
