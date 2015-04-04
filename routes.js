@@ -120,6 +120,19 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/item/view/:id', function(req, res) {
+        Item.findByID(req.params.id, function(err, result) {
+            if (err) {
+                res.render('restaurant/viewItem', {
+                    message: err
+                });
+            } else {
+                res.render('restaurant/viewItem', {
+                    item: result
+                });
+            }
+        });
+    });
     app.get('/item/edit/:id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
