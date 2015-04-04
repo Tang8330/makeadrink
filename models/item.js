@@ -83,7 +83,6 @@ var count = function(callback) {
 };
 
 var findByID = function(id, callback) {
-    console.log(id);
     tempItem.findById(id, function(err, result) {
         if (err) {
             callback(err, null);

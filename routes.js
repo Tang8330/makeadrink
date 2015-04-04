@@ -255,22 +255,66 @@ module.exports = function(app) {
             }
         });
     });
+
     app.post('/order/add', function(req, res) {
-        var conditions = req.body;
+        var tableNumber = req.cookies.table_number,
+            conditions = req.body;
+        if (tableNumber === undefined) {
+            tableNumber = randomNumber();
+            res.cookie('table_number', tableNumber);
+        }
         conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
         conditions.owner = req.user;
-        Order.create(conditions, function(err, result) {
-            if (err) {
-                res.render('restaurant/order', {
-                    message: err
+        conditions.tableNumber = tableNumber;
+
+        var p = new Promise(function(resolve, reject) {
+            Order.findByTable(tableNumber, function(err, result) {
+                if (err) {
+                    reject(err);
+                } else if (result.length === 0 || !result) {
+                    resolve(false);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+        p.then(function success(data) {
+            if (data === false) {
+                Order.create(conditions, function(err, result) {
+                    if (err) {
+                        res.render('restaurant/order', {
+                            message: err
+                        });
+                    } else {
+                        res.render('restaurant/order', {
+                            item: result
+                        });
+                    }
                 });
             } else {
-                res.render('restaurant/order', {
-                    item: result
+                var params = {};
+                params.tableNumber = tableNumber;
+                params.statusCode = 1; //ORDERSTATUS_SENT, export later
+                conditions.push.apply(conditions, data.items); //concat the 2 arrays
+                Order.update(params, conditions, function(err, result) {
+                    if (err) {
+                        res.render('restaurant/order', {
+                            message: err
+                        });
+                    } else {
+                        res.render('restaurant/order', {
+                            item: result
+                        });
+                    }
                 });
             }
+        }, function error(e) {
+            res.render('restaurant/order', {
+                err: e
+            });
         });
+
     });
     app.get('/order/all', function(req, res) {
         Order.findAll(function(err, result) {

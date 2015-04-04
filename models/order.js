@@ -13,9 +13,13 @@ var Order = new Schema({
     party: String,
     items: [],
     isDeleted: Boolean,
-    statusCode: Number,
-    owner : String,
-    lastModifiedBy : String,
+    statusCode: {
+        type: Number,
+        default: ORDERSTATUS_SENT
+    },
+    tableNumber : String,
+    owner: String,
+    lastModifiedBy: String,
     lastModifiedDate: Date,
     dateAdded: {
         type: Date,
@@ -71,6 +75,8 @@ var count = function(callback) {
     });
 };
 
+
+
 var findByID = function(id, callback) {
     tempOrder.findById(id, function(err, result) {
         if (err) {
@@ -80,9 +86,22 @@ var findByID = function(id, callback) {
         }
     });
 }
+
+var findByTable = function(table, callback) {
+    tempOrder.find({
+        'tableNumber': table
+    }, null, {}, function(err, collection) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, collection);
+        }
+    })
+};
 module.exports = mongoose.model('Order', Order);
 module.exports.create = create;
 module.exports.update = update;
 module.exports.findAll = findAll;
 module.exports.count = count;
 module.exports.findByID = findByID;
+module.exports.findByTable = findByTable;
