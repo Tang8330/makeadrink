@@ -86,22 +86,34 @@ module.exports = function(app) {
 
     });
 
+    app.get('/home', function(req, res) {
+        res.cookie('table_number', randomNumber());
+        res.render('home');
+    });
 
-    app.get('/:home', function(req, res) {
-        if (req.params.home === 'home') {
-            res.cookie('table_number', randomNumber());
-        }
-        res.render(req.params.home);
+    app.get('/menu/restaurant', function(req, res) {
+        var user = req.user || '';
+        Item.findByUser(user, function(err, result) {
+            if (err) {
+                res.render('customer/menu', {
+                    err: err
+                });
+            } else {
+                res.render('customer/menu', {
+                    items: result
+                });
+            }
+        });
     });
 
     app.get('/menu', function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
-                res.render('menu', {
+                res.render('customer/menu', {
                     err: err
                 });
             } else {
-                res.render('menu', {
+                res.render('customer/menu', {
                     items: result
                 });
             }

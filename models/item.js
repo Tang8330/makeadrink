@@ -47,6 +47,18 @@ var update = function(conditions, callback) {
     });
 }
 
+var findByUser = function(user, callback) {
+    tempItem.find({
+        'owner': user
+    }, null, {}, function(err, collection) {
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, collection);
+        }
+    })
+};
+
 var findAll = function(callback) {
     tempItem.find({},
         null, {},
@@ -84,6 +96,7 @@ var findByID = function(id, callback) {
 module.exports = mongoose.model('Item', Item);
 module.exports.create = create;
 module.exports.update = update;
+module.exports.findByUser = findByUser;
 module.exports.findAll = findAll;
 module.exports.count = count;
 module.exports.findByID = findByID;
