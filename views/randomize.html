@@ -1,19 +1,69 @@
 <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
 <div class="row">
     <div class="col-xs-12">
-        <h1><b>Randomize</b></h1>
+        <h1><b>Suggested Drinks</b></h1>
     </div>
-    <h3><b>Please pick your favourite ingredients!</b></h3>
+	<br/><br/>
+	<br/><br/>
+    <h4><b>Please pick your favourite ingredients!</b></h4>
     <select class="form-control choose-likes" multiple="multiple">
     </select>
-    <h3><b>Please pick your ingredients you do not want!</b></h3>
+	<br/><br/>
+    <h4><b>Please pick your ingredients you do not want.</b></h4>
     <select class="form-control choose-dislikes" multiple="multiple">
     </select>
 </div>
+<div class="row">
+    <div class="col-xs-12 text-right">
+	<br/>
+        <button class="buff5 btn btn-primary pull-right">Suggest a drink!</button>		
+		<button type="button" class='btn btn-primary respin' onclick="" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
+        <div class='details' style='display:none'>
+            <i>Not satisfied with your results? Try it again!</i>
+        </div>
+        <div class="drink" style='display:none'>
+            <h1><b>{{item.name}}</b></h1>
+            <span class="drink-attribute">
+    			<i><b>Glass</b></i>
+    			<div>
+    				{{item.glass}}
+    			</div>
+    			<div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+    			<i><b>Category</b></i>
+    			<div>
+    				{{item.category}}
+    			</div>
+    			<div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+    			<i><b>Garnish</b></i>
+    			<div>
+    				{{item.garnish}}
+    			</div>
+    			<div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+    			<i><b>Preparation</b></i>
+    			<div>
+    				{{item.prep}}
+    			</div>
+    			<div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+                <i><b>Ingredients</b></i>
+                <div>
+                    {{item.ingredients}}
+                </div>
+                <div class="row top-buffer"></div>
+            </span>
+    </div>
+</div>
 <script src="/js/select2.full.js"></script>
 <script>
-var likes = ['gin', 'melon liqueur', 'rum', 'vodka', 'blue curacao'];
-var dislikes = ['hot sauce', 'coffee', 'peanuts', 'sweet and sour'];
+var likes = ['blue curacao', 'chocolate liquor', 'coffee', 'coke', 'gin', 'hot sauce', 'melon liqueur', 'orange juice', 'peanuts', 'pepsi', 'rum', 'rye', 'sour puss', 'sprite', 'sweet and sour', 'vodka', 'whiskey'];
+var dislikes = ['blue curacao', 'chocolate liquor', 'coffee', 'coke', 'gin', 'hot sauce', 'melon liqueur', 'orange juice', 'peanuts', 'pepsi', 'rum', 'rye', 'sour puss', 'sprite', 'sweet and sour', 'vodka', 'whiskey'];
 $(".choose-likes").select2({
     data: likes
 });
