@@ -91,7 +91,7 @@ module.exports = function(app) {
 
     app.get('/home', function(req, res) {
         res.cookie('table_number', randomNumber());
-        res.render('home');
+        res.render('customer/home');
     });
 
     app.get('/menu/restaurant', function(req, res) {
