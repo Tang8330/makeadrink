@@ -16,14 +16,10 @@
 	{{else}}
 <div class="bckgrnd">	
 	<div class="row">
-		<div class="col-md-6">
-			<h2>Drink Menu</h2>
-		</div>
-		<div class="col-xs-12" style="background-color:#000000; height:3px;">
-			&nbsp;
-		</div>
-		<div class="col-md-6">
+	<div class="col-md-12">
+			<div class="text-right">
 			<button type="button" class="btn btn-md" data-toggle="modal" id="menu" data-target="#viewOrder">View Order</button>
+			</div>
 			<div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
@@ -44,6 +40,13 @@
 			</div>
 		</div>
 	</div>
+		<div class="col-md-6">
+			<h2>Drink Menu</h2>
+		</div>
+		<div class="col-xs-12" style="background-color:#000000; height:3px;">
+			&nbsp;
+		</div>
+		
 	<div>
 		
 			{{#each items}}
