@@ -27,11 +27,29 @@
 			<h2>Menu</h2>
 		</div>
 		<div class="col-md-6">
-			<a class="btn btn-default" href="/order/all" role="button">View Order</a>
+			<button type="button" class="btn btn-md" data-toggle="modal" id="menu" data-target="#viewOrder">View Order</button>
+			<div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<form name="viewCustomerOrder" method="post">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">Your Order</h4>
+							</div>
+							<div class="modal-body" id="cart">
+								
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				        		<button type="submit" class="btn btn-primary">Submit</button>
+				        	</div>
+				        </form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div>
-		<form action="/menu" method="GET">
 			<table class="table table-striped">
 				<tr>
 					<td>Name</td>
@@ -44,42 +62,73 @@
 					<td>{{name}}</td>
 					<td>{{price}}</td>
 					<td>{{desc}}</td>
-					<td><button type="button" class="btn btn-md" data-toggle="modal" data-target="#addItem">Add</button><a class="btn btn-default" href="/item/edit/{{id}}" role="button">More Info</a></td>
+					<td><button type="button" class="btn btn-md" data-toggle="modal" onclick="myFunc('{{name}}', '{{_id}}')" data-target="#addItem">Add</button><a class="btn btn-default" href="/item/edit/{{_id}}" role="button">More Info</a></td>
 				</tr>
 				{{/each}}
 				<div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title">Add Item</h4>
-							</div>
-							<div class="modal-body">
-								<label for="quantity">Quantity<input type="number" step="1" value="0" id="quantity"></label>
-								<label for="specReq">Special Request<input type="text" id="specReq"></label>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				        		<button type="button" class="btn btn-primary" id="btnAddItem">Add To Order</button>
-				        	</div>
+							<form name="addToOrder" method="post">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title">Add Item</h4>
+								</div>
+								<div class="modal-body">
+									<label for="quantity">Quantity<input type="number" step="1" value="0" name="quantity"></label>
+									<label for="specReq">Special Request<input type="text" name="request"></label>
+									<input type="text" style="display:none" name="id" id="id" value="{{items._id}}">
+									<input type="text" style="display:none" name="name" id="name" value="{{_name}}">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					        		<button type="submit" class="btn btn-primary">Add To Order</button>
+					        	</div>
+					        </form>
 						</div>
 					</div>
 				</div>
 			</table>
-		</form>
 	</div>
-
+	<script src="/js/serializeObject.js"></script>
 	<script src="/js/utility.js" type="text/javascript"></script>
-	<script type="text/javascript">
-		$('#btnAddItem').on('click', function () {
-			var data = {
-				"quantity": utility.getElementValueByID("#quantity"),
-				"specReq": utility.getElementValueByID("#specReq")
-			};
+	<script src="/js/jquery.cookie.js"></script>
+	<script>
+		$.cookie.json = true;
+		var items = [];
+		function myFunc(name, id) {
+			$('#id').val(id);
+			$('#name').val(name);
+		}
 
-			$.post("/order/add/{{items.id}}", {data: JSON.stringify(data)}, function(err, result) {
-				$("#form-output").html(result);
-			});
+		$('#menu').on('click', function(e) {
+			if ($.cookie("cart")) {
+				var item  = $.cookie("cart");
+				var text = "<table class='table table-striped'> <tr> <td> Name </td> <td> Quantity </td> <td> Request </td> </tr>";
+				for (var i = 0; i < item.length; i++) {
+					console.log(item[i].quantity);
+					text += "<tr> <td>" + JSON.stringify(item[i]['name']) + "</td> <td>" + JSON.stringify(item[i].quantity) + "</td> <td>" + JSON.stringify(item[i].request) + "</td> </tr>";
+				}
+				text += "</table>";
+				$('#cart').html(text);
+			} else {
+				//wtf does this func do
+				$('#cart').text(item[i]);
+			}			
+		});
+		
+		$('form[name=addToOrder]').submit(function(e) {
+	        var _this = this;
+	        e.preventDefault();
+	        var data = $(_this).serializeObject();
+	        console.log(data);
+	        items.push(data);
+
+	        if ($.cookie("cart")) {
+	            $.cookie("cart", items, {path: "/"});
+	        } else {
+	        	$.cookie("cart", items, {path: "/"});
+	        }	     
+	        $("#addItem").modal("hide");
 		});
 	</script>
 	
