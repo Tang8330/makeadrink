@@ -1,135 +1,140 @@
 {{#if customer}}
-	<h2>Menu</h2>
-	<div>
-		<form action="/menu" method="GET">
-			<table class="table table-striped">
-				<tr>
-					<td>Name</td>
-					<td>Price</td>
-					<td>Description</td>
-					<td></td>
-				</tr>
-				{{#each items}}
-					<tr>
-						<td>{{name}}</td>
-						<td>{{price}}</td>
-						<td>{{desc}}</td>
-						<td><a class="btn btn-default" href="/item/edit/{{id}}" role="button">Edit</a></td>
-					</tr>
-				{{/each}}
-			</table>
-		</form>
-		<a class="btn btn-default" href="/item/add" role="button">Create</a>
-	</div>
+<h2>Menu</h2>
+<div>
+    <form action="/menu" method="GET">
+        <table class="table table-striped">
+            <tr>
+                <td>Name</td>
+                <td>Price</td>
+                <td>Description</td>
+                <td></td>
+            </tr>
+            {{#each items}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{price}}</td>
+                <td>{{desc}}</td>
+                <td><a class="btn btn-default" href="/item/edit/{{id}}" role="button">Edit</a></td>
+            </tr>
+            {{/each}}
+        </table>
+    </form>
+    <a class="btn btn-default" href="/item/add" role="button">Create</a>
+</div>
 {{else}}
-	<div class="row">
-		<div class="col-md-6">
-			<h2>Menu</h2>
-		</div>
-		<div class="col-md-6">
-			<button type="button" class="btn btn-md" data-toggle="modal" id="menu" data-target="#viewOrder">View Order</button>
-			<div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<form name="viewCustomerOrder" method="post">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								<h4 class="modal-title">Your Order</h4>
-							</div>
-							<div class="modal-body" id="cart">
-								
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				        		<button type="submit" class="btn btn-primary">Submit</button>
-				        	</div>
-				        </form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div>
-			<table class="table table-striped">
-				<tr>
-					<td>Name</td>
-					<td>Price</td>
-					<td>Description</td>
-					<td></td>
-				</tr>
-				{{#each items}}
-				<tr>
-					<td>{{name}}</td>
-					<td>{{price}}</td>
-					<td>{{desc}}</td>
-					<td><button type="button" class="btn btn-md" data-toggle="modal" onclick="myFunc('{{name}}', '{{_id}}')" data-target="#addItem">Add</button><a class="btn btn-default" href="/item/edit/{{_id}}" role="button">More Info</a></td>
-				</tr>
-				{{/each}}
-				<div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<form name="addToOrder" method="post">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-									<h4 class="modal-title">Add Item</h4>
-								</div>
-								<div class="modal-body">
-									<label for="quantity">Quantity<input type="number" step="1" value="0" name="quantity"></label>
-									<label for="specReq">Special Request<input type="text" name="request"></label>
-									<input type="text" style="display:none" name="id" id="id" value="{{items._id}}">
-									<input type="text" style="display:none" name="name" id="name" value="{{_name}}">
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-					        		<button type="submit" class="btn btn-primary">Add To Order</button>
-					        	</div>
-					        </form>
-						</div>
-					</div>
-				</div>
-			</table>
-	</div>
-	<script src="/js/serializeObject.js"></script>
-	<script src="/js/utility.js" type="text/javascript"></script>
-	<script src="/js/jquery.cookie.js"></script>
-	<script>
-		$.cookie.json = true;
-		var items = [];
-		function myFunc(name, id) {
-			$('#id').val(id);
-			$('#name').val(name);
-		}
+<div class="row">
+    <div class="col-md-6">
+        <h2>Menu</h2>
+    </div>
+    <div class="col-md-6">
+        <button type="button" class="btn btn-md" data-toggle="modal" id="menu" data-target="#viewOrder">View Order</button>
+        <div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="viewCustomerOrder" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><b>Your Order</b></h4>
+                        </div>
+                        <div class="modal-body" id="cart">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Place</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <table class="buff5 table table-striped">
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>Price</b></td>
+            <td><b>Description</b></td>
+            <td></td>
+        </tr>
+        {{#each items}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{price}}</td>
+            <td>{{desc}}</td>
+            <td>
+                <button type="button" class="btn btn-md" data-toggle="modal" onclick="myFunc('{{name}}', '{{_id}}')" data-target="#addItem">Add</button>&nbsp;<a class="btn btn-default" href="/item/edit/{{_id}}" role="button">More Info</a></td>
+        </tr>
+        {{/each}}
+        <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="addToOrder" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><b>Add Item</b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group">
+                                <span class="input-group-addon">Qty</span>
+                                <input type="number" class="form-control" value="1" step="1" name="quantity" />
+                            </div>
+                            <textarea type="text" name="request" placeholder="Special requests (e.g. no limes" class="buff5 form-control"></textarea>
+                            <input type="text" style="display:none" name="id" id="id" value="{{items._id}}">
+                            <input type="text" style="display:none" name="name" id="name" value="{{_name}}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add To Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </table>
+</div>
+<script src="/js/serializeObject.js"></script>
+<script src="/js/utility.js" type="text/javascript"></script>
+<script src="/js/jquery.cookie.js"></script>
+<script>
+$.cookie.json = true;
+var items = [];
 
-		$('#menu').on('click', function(e) {
-			if ($.cookie("cart")) {
-				var item  = $.cookie("cart");
-				var text = "<table class='table table-striped'> <tr> <td> Name </td> <td> Quantity </td> <td> Request </td> </tr>";
-				for (var i = 0; i < item.length; i++) {
-					console.log(item[i].quantity);
-					text += "<tr> <td>" + JSON.stringify(item[i]['name']) + "</td> <td>" + JSON.stringify(item[i].quantity) + "</td> <td>" + JSON.stringify(item[i].request) + "</td> </tr>";
-				}
-				text += "</table>";
-				$('#cart').html(text);
-			} else {
-				//wtf does this func do
-				$('#cart').text(item[i]);
-			}			
-		});
-		
-		$('form[name=addToOrder]').submit(function(e) {
-	        var _this = this;
-	        e.preventDefault();
-	        var data = $(_this).serializeObject();
-	        console.log(data);
-	        items.push(data);
+function myFunc(name, id) {
+    $('#id').val(id);
+    $('#name').val(name);
+}
 
-	        if ($.cookie("cart")) {
-	            $.cookie("cart", items, {path: "/"});
-	        } else {
-	        	$.cookie("cart", items, {path: "/"});
-	        }	     
-	        $("#addItem").modal("hide");
-		});
-	</script>
-	
+$('#menu').on('click', function(e) {
+    var item = $.cookie("cart") || [];
+    var text = "<table class='table table-striped'> <tr> <td> Name </td> <td> Quantity </td> <td> Request </td> </tr>";
+    for (var i = 0; i < item.length; i++) {
+        console.log(item[i].quantity);
+        text += "<tr> <td>" + JSON.stringify(item[i]['name']) + "</td> <td>" + JSON.stringify(item[i].quantity) + "</td> <td>" + JSON.stringify(item[i].request) + "</td> </tr>";
+    }
+    text += "</table>";
+    if (item.length === 0) {
+        text = "<i>There's nothing in your order!</i>";
+    }
+    $('#cart').html(text);
+});
+
+$('form[name=addToOrder]').submit(function(e) {
+    var _this = this;
+    e.preventDefault();
+    var data = $(_this).serializeObject();
+    console.log(data);
+    items.push(data);
+
+    if ($.cookie("cart")) {
+        $.cookie("cart", items, {
+            path: "/"
+        });
+    } else {
+        $.cookie("cart", items, {
+            path: "/"
+        });
+    }
+    $("#addItem").modal("hide");
+});
+</script>
 {{/if}}
