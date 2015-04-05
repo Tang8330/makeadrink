@@ -362,6 +362,10 @@ module.exports = function(app) {
         });
 
     });
+
+    app.get('/robin',       function(req, res) {
+            res.render('randomize');
+        });
     app.get('/order/all', function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
