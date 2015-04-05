@@ -287,7 +287,6 @@ module.exports = function(app) {
                 });
 
             }
-
         });
     });
     app.post('/order/add', function(req, res) {
