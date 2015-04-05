@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="/css/select2.min.css">
+<div class="row">
+    <div class="col-xs-12">
+        <h1><b>Randomize</b></h1>
+    </div>
+    <h3><b>Please pick your favourite ingredients!</b></h3>
+    <select class="form-control choose-likes" multiple="multiple">
+    </select>
+    <h3><b>Please pick your ingredients you do not want!</b></h3>
+    <select class="form-control choose-dislikes" multiple="multiple">
+    </select>
+</div>
+<script src="/js/select2.full.js"></script>
+<script>
+var likes = ['gin', 'melon liqueur', 'rum', 'vodka', 'blue curacao'];
+var dislikes = ['hot sauce', 'coffee', 'peanuts', 'sweet and sour'];
+$(".choose-likes").select2({
+    data: likes
+});
+$(".choose-dislikes").select2({
+    data: dislikes
+});
+</script>
