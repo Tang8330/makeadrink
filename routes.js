@@ -245,6 +245,10 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/customer/randomizer', function(req, res) {
+        res.render('customer/randomize');
+    });
+
     app.get('/item/id/:req.params.id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
