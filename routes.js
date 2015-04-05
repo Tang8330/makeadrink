@@ -2,8 +2,10 @@ var Item = require('./models/item'),
     Order = require('./models/order'),
     Account = require('./models/account'),
     passport = require('passport'),
+    async = require('async'),
     fs = require('fs'),
     path = require('path'),
+    validator = require('./validator'),
     Promise = require('promise');
 
 var titles = {
@@ -246,7 +248,7 @@ module.exports = function(app) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('customer/item', {
-                    message: err
+                    err: err
                 });
             } else {
                 res.render('customer/item', {
@@ -256,6 +258,38 @@ module.exports = function(app) {
         });
     });
 
+
+    app.get('/order/bill', function(req, res) {
+        var tableNumber = req.cookies.table_number || 0,
+            total = 0;
+        Order.findByTable(tableNumber, function(err, result) {
+            if (err) {
+                res.render('customer/menu', {
+                    err: err
+                });
+            } else {
+                //results
+                async.ForEach(result.items, function(el, callback) {
+                    Item.findByID(el._id, function(error, item) {
+                        if (err) {
+                            callback();
+                        } else {
+                            total = total + item.price;
+                            callback();
+                        }
+                    });
+                }, function() {
+                    res.render('customer/menu', {
+                        item: result,
+                        total: total
+                    });
+
+                });
+
+            }
+
+        });
+    });
     app.post('/order/add', function(req, res) {
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
