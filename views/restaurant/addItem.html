@@ -1,19 +1,69 @@
-<div>
+<script>
+	function toggle(){ 
+        document.getElementById("more").style.display ="";
+	}
+</script>
+<div class="row col-xs-8">
 	<form action="/item/add" method="POST">
-		<span><label>Name</label>
-		<input style="display:block;" type="text" name="name"></span>
-		<span><label>Price</label>
-		<input style="display:block;" type="number" step="0.01" name="price"></span>
-		<span><label>Ingredients</label>
-		<input style="display:block;" type="text" name="ingredients"></span>
-		<span><label>Glass Type</label>
-		<input style="display:block;" type="text" name="glass"></span>
-		<span><label>Garnish</label>
-		<input style="display:block;" type="text" name="garnish"></span>
-		<span><label>Category</label>
-		<input style="display:block;" type="text" name="category"></span>
-		<span><label>Description</label>
-		<input style="display:block;" type="text" name="desc"></span>
-		<button type="submit">Submit</button>
+		<h1 class="text-center">Add an item to your menu</h1>
+		<p class="text-center">Easily insert new drinks into your beverage menu by filling in the following fields.</p>
+		<br/>
+		<table width="90%">
+			<tr>
+				<td class="text-right" width="30%"><label for="name">Beverage Name:&nbsp;</label></td>
+				<td colspan="2"><input type="text" name="name" class="buff5 form-control" placeholder="Beverage Name" size="60%"></td>
+			</tr>
+			<tr>	
+				<td class="text-right"><label for="price">Price:&nbsp; </label></td>
+				<td colspan="2"><input class="buff5 form-control" type="number" step="0.01" name="price" placeholder="Price"></td>
+			</tr>
+			<tr>	
+				<td class="text-right"><label for="glass">Glass Type:&nbsp; </label></td>
+				<td colspan="2"><input style="display:block;" class="buff5 form-control" type="text" name="glass" placeholder="Glass Type"></td>
+			</tr>
+			<tr>	
+				<td class="text-right"><label for="garnish">Garnish:&nbsp; </label></td>
+				<td colspan="2"><input class="buff5 form-control" type="text" name="garnish" placeholder="Garnish"></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label for="category">Category:&nbsp; </label></td>
+				<td colspan="2"><input class="buff5 form-control" type="text" name="category" placeholder="Category"></td>
+			</tr>
+			<tr>	
+				<td class="text-right"><label for="desc">Description:&nbsp; </label></td>
+				<td colspan="2"><textarea class="buff5 form-control" type="text" name="desc" placeholder="Description of Beverage"></textarea></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label for="ingredients">Ingredients:&nbsp; </label></td>
+				<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+				<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+			</tr>
+		</table>
+		<div id="more" style="display:none">
+			<table width="90%">
+				<tr>
+					<td width="30%">&nbsp;</td>
+					<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+					<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+				</tr>
+				<tr>
+					<td width="30%">&nbsp;</td>
+					<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+					<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+				</tr>
+			</table>
+		</div>
+			<table width="90%">
+				<tr>
+					<td colspan="3" class="text-right"><span style="font-size:11px;"><a href="#" onclick="toggle();">Add more ingredients</a></td>
+				</tr>
+				<tr>
+					<td  class="text-right" colspan="4"><button type="submit">Submit</button></td>
+				</tr>
+			</table>
 	</form>
+</div>
+<div class="row col-xs-4 text-center">
+	<br/><br/><br/><br/><img src="/img/bev2.jpg">
+	<img src="/img/bev.jpg">
 </div>
