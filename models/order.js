@@ -17,7 +17,7 @@ var Order = new Schema({
         type: Number,
         default: ORDERSTATUS_SENT
     },
-    tableNumber : String,
+    tableNumber: String,
     owner: String,
     lastModifiedBy: String,
     lastModifiedDate: Date,
@@ -98,6 +98,7 @@ var findByTable = function(table, callback) {
         }
     })
 };
+
 module.exports = mongoose.model('Order', Order);
 module.exports.create = create;
 module.exports.update = update;
