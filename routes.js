@@ -6,6 +6,7 @@ var Item = require('./models/item'),
     fs = require('fs'),
     path = require('path'),
     validator = require('./validator'),
+    _ = require('underscore'),
     Promise = require('promise');
 
 var titles = {
@@ -291,14 +292,19 @@ module.exports = function(app) {
     });
     app.post('/order/add', function(req, res) {
         var tableNumber = req.cookies.table_number,
-            conditions = req.body;
+            conditions = {};
+        conditions['items'] = req.cookies.cart;
         if (tableNumber === undefined) {
             tableNumber = randomNumber();
             res.cookie('table_number', tableNumber);
         }
-        conditions.lastModifiedBy = req.user;
+
+        if (!conditions || conditions.length === 0) {
+            res.send(500, 'Empty, no data sent');
+        }
+        //conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
-        conditions.owner = req.user;
+        //conditions.owner = req.user;
         conditions.tableNumber = tableNumber;
 
         var p = new Promise(function(resolve, reject) {
@@ -316,29 +322,23 @@ module.exports = function(app) {
             if (data === false) {
                 Order.create(conditions, function(err, result) {
                     if (err) {
-                        res.render('restaurant/order', {
-                            message: err
-                        });
+                        res.send(500, e);
                     } else {
-                        res.render('restaurant/order', {
-                            item: result
-                        });
+                        res.send(200, result);
                     }
                 });
             } else {
                 var params = {};
+                var host = JSON.parse(conditions.items);
+                host.push.apply(host, data[0].items);
+                conditions.items = host;
                 params.tableNumber = tableNumber;
                 params.statusCode = 1; //ORDERSTATUS_SENT, export later
-                conditions.push.apply(conditions, data.items); //concat the 2 arrays
                 Order.update(params, conditions, function(err, result) {
                     if (err) {
-                        res.render('restaurant/order', {
-                            message: err
-                        });
+                        res.send(500, e);
                     } else {
-                        res.render('restaurant/order', {
-                            item: result
-                        });
+                        res.send(200, result);
                     }
                 });
             }

@@ -33,10 +33,11 @@ var tempOrder = mongoose.model('Order', Order);
 var create = function(request, cb) {
     var instance = new tempOrder();
     var keys = Object.keys(request);
-    async.ForEach(key, function(el, callback) {
-        instance[key] = el;
+    async.forEach(keys, function(el, callback) {
+        instance[el] = request[el];
         callback();
     }, function() {
+        console.log(instance);
         instance.save(function(err, result) {
             cb(err, result);
         });

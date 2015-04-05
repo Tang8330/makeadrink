@@ -31,7 +31,7 @@
         <div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form name="viewCustomerOrder" method="post">
+                    <form name="viewCustomerOrder" action="/order/add" method="post">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title"><b>Your Order</b></h4>
@@ -135,6 +135,18 @@ $('form[name=addToOrder]').submit(function(e) {
         });
     }
     $("#addItem").modal("hide");
+});
+
+$('form[name=viewCustomerOrder]').submit(function(e) {
+    var _this = this;
+    e.preventDefault();
+    $.ajax({
+        url: _this.action,
+        type: _this.method,
+        success: function(response) {
+            console.log('yee boi');
+        }
+    });
 });
 </script>
 {{/if}}
