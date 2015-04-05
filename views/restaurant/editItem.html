@@ -1,20 +1,45 @@
-<div class="row">
-    <form class="col-xs-3 col-md-6" action="" method="POST">
-    	<h2><b>Edit Item</b></h2>
-        <span><label>Name</label>
-		<input class="form-control" type="text" name="name" value="{{{item.name}}}"></span>
-        <span><label>Price</label>
-		<input class="form-control" type="number" step="0.01" name="price" value="{{{item.price}}}"></span>
-        <span><label>Ingredients</label>
-		<input class="form-control" type="text" name="ingredients" value="{{{item.ingredients}}}"></span>
-        <span><label>Glass Type</label>
-		<input class="form-control" type="text" name="glass" value="{{{item.glass}}}"></span>
-        <span><label>Garnish</label>
-		<input class="form-control" type="text" name="garnish" value="{{{item.garnish}}}"></span>
-        <span><label>Category</label>
-		<input class="form-control" type="text" name="category" value="{{{item.category}}}"></span>
-        <span><label>Description</label>
-		<input class="form-control" type="text" name="desc" value="{{{item.desc}}}"></span>
-        <button class="buff5 pull-right btn btn-primary" type="submit">Edit</button>
+<div class="row col-xs-8">
+    <form action="" method="POST">
+    	<h1 class="text-center">Edit an item on your menu</h1>
+		<p class="text-center">Easily edit your drinks by filling in the following fields</p>
+		<br>
+		<table width="80%">
+			<tr>
+				<td class="text-right" width="20%"><label>Name:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="text" name="name" value="{{{item.name}}}"></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label>Price:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="number" step="0.01" name="price" value="{{{item.price}}}"></td>
+			</tr>
+			
+			<tr>
+				<td class="text-right"><label>Glass Type:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="text" name="glass" value="{{{item.glass}}}"></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label>Garnish:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="text" name="garnish" value="{{{item.garnish}}}"></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label>Category:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="text" name="category" value="{{{item.category}}}"></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label>Description:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="text" name="desc" value="{{{item.desc}}}"></td>
+			</tr>
+			<tr>
+				<td class="text-right"><label>Ingredients:&nbsp;</label></td>
+				<td><input class="buff5 form-control" type="text" name="ingredients" value="{{{item.ingredients}}}"></td>
+			</tr>
+			<tr>
+				<td colspan="2"><button class="buff5 pull-right btn btn-primary" type="submit" style="background-color:#ADEBAD; border-color:#9CD49C; color:#101510">Edit</button></td>
+			</tr>
+		</table>
     </form>
+</div>
+<div class="row col-xs-4">
+	<br/><br/><br/>
+	<img src="/img/drink.png">
 </div>
