@@ -3,12 +3,14 @@
 <div>
     <form action="/menu" method="GET">
         <table class="table table-striped">
+        	<thead>
             <tr>
                 <td>Name</td>
                 <td>Price</td>
                 <td>Description</td>
                 <td></td>
             </tr>
+            </thead>
             {{#each items}}
             <tr>
                 <td>{{name}}</td>
@@ -106,10 +108,13 @@ function myFunc(name, id) {
 
 $('#menu').on('click', function(e) {
     var item = $.cookie("cart") || [];
-    var text = "<table class='table table-striped'> <tr> <td> Name </td> <td> Quantity </td> <td> Request </td> </tr>";
+    var text = "<table class='table table-hover'> <thead> <tr> <td> Name </td> <td> Quantity </td> <td> Request </td> </tr> </thead>";
+    var name, quantity, specReq;
     for (var i = 0; i < item.length; i++) {
-        console.log(item[i].quantity);
-        text += "<tr> <td>" + JSON.stringify(item[i]['name']) + "</td> <td>" + JSON.stringify(item[i].quantity) + "</td> <td>" + JSON.stringify(item[i].request) + "</td> </tr>";
+    	name = JSON.stringify(item[i]['name']);
+    	quantity = JSON.stringify(item[i].quantity);
+    	specReq = JSON.stringify(item[i].request);
+        text += "<tr> <td>" + name.substring(1, name.length-1) + "</td> <td>" + quantity.substring(1, quantity.length-1) + "</td> <td>" + specReq.substring(1, specReq.length-1) + "</td> </tr>";
     }
     text += "</table>";
     if (item.length === 0) {
@@ -122,7 +127,6 @@ $('form[name=addToOrder]').submit(function(e) {
     var _this = this;
     e.preventDefault();
     var data = $(_this).serializeObject();
-    console.log(data);
     items.push(data);
 
     if ($.cookie("cart")) {
@@ -144,7 +148,7 @@ $('form[name=viewCustomerOrder]').submit(function(e) {
         url: _this.action,
         type: _this.method,
         success: function(response) {
-            console.log('yee boi');
+            $("#viewOrder").modal("hide");
         }
     });
 });
