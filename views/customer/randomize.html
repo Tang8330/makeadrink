@@ -2,42 +2,43 @@
     <h2><b>Make A Drink!</b></h2>
 </div>
 <div class='col-xs-12 text-center'>
+    <form action="/customer/randomizer/{{id}}" method="GET">
     <button type="button" class='btn btn-danger randomize' onclick=""><span class="glyphicon glyphicon-play"></span> Randomize</button>
     <button type="button" class='btn btn-primary respin' onclick="" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
         <div class='details' style='display:none'>
             <i>Not satisfied with your results? Try it again!</i>
         </div>
-        <div class="drink">
+        <div class="drink" style='display:none'>
             <h1><b>{{item.name}}</b></h1>
-            <span>
+            <span class="drink-attribute">
     			<i><b>Glass</b></i>
     			<div>
     				{{item.glass}}
     			</div>
     			<div class="row top-buffer"></div>
             </span>
-            <span>
+            <span class="drink-attribute">
     			<i><b>Category</b></i>
     			<div>
     				{{item.category}}
     			</div>
     			<div class="row top-buffer"></div>
             </span>
-            <span>
+            <span class="drink-attribute">
     			<i><b>Garnish</b></i>
     			<div>
     				{{item.garnish}}
     			</div>
     			<div class="row top-buffer"></div>
             </span>
-            <span>
+            <span class="drink-attribute">
     			<i><b>Preparation</b></i>
     			<div>
     				{{item.prep}}
     			</div>
     			<div class="row top-buffer"></div>
             </span>
-            <span>
+            <span class="drink-attribute">
                 <i><b>Ingredients</b></i>
                 <div>
                     {{item.ingredients}}
@@ -45,11 +46,22 @@
                 <div class="row top-buffer"></div>
             </span>
         </div>
+    </form>
 </div>
 <script>
-$(document.body).on('click', '.randomize', function() {
-    $('.randomize').hide();
-    $('.details').fadeIn('slow');
-    $('.respin').fadeIn('slow');
-});
+    $('form[name=viewCustomerOrder]').submit(function(e) {
+        var _this = this;
+        e.preventDefault();
+        $.ajax({
+            url: _this.action,
+            type: _this.method,
+            data: 
+            success: function(response) {
+                $('.randomize').hide();
+                $('.details').fadeIn('slow');
+                $('.respin').fadeIn('slow');
+                $('.drink').fadeIn('slow');
+            }
+        });
+    });
 </script>
