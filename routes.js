@@ -223,23 +223,32 @@ module.exports = function(app) {
             });
         });
         p.then(function success(result) {
+            if (req.files) {
             fs.readFile(req.files.file.path, function(err, data) {
                 var folder = path.join('assets', result._id, req.files.file.originalFilename),
                     pathNew = path.join(__dirname, 'public', folder);
                 fs.writeFile(pathNew, data, function(error) {
                     if (error) {
-                        res.render('restaurant/editItem', {
+                        res.render('restaurant/addItem', {
                             message: error
                         });
                     } else {
-                        res.render('restaurant/editItem', {
+                        res.render('restaurant/addItem', {
                             item: result
                         });
                     }
                 });
+            });                
+        } else {
+            console.log('pls');
+            res.render('restaurant/addItem', {
+                item: result,
+                msg : 'Successfully added this item'
             });
+        }
+
         }, function error(e) {
-            res.render('restaurant/editItem', {
+            res.render('restaurant/addItem', {
                 message: e
             });
         });

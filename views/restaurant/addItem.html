@@ -1,12 +1,15 @@
 <div class="row col-xs-8">
+{{#if msg}}
+		<div id="success" class="alert alert-success">
+			<a href="#" class="close" data-dismiss="alert">&times;</a>
+   			<strong>Success!</strong> {{msg}}
+   		</div>
+   		{{/if}}
 	<form name="addItem" action="/item/add" method="POST">
 		<h1 class="text-center">Add an item to your menu</h1>
 		<p class="text-center">Easily insert new drinks into your menu by filling in the fields below.</p>
 		<br/>
-		<div id="success" class="alert alert-success" style="display:none">
-			<a href="#" class="close" data-dismiss="alert">&times;</a>
-   			<strong>Success!</strong> Your item has been added.
-   		</div>
+		
 		<table width="90%" id="itemAttributes">
 			<tr>
 				<td class="text-right" width="30%"><label for="name">Beverage Name:&nbsp;</label></td>
@@ -69,14 +72,14 @@
 		}
 	});
 
-	$('form[name=addItem]').submit(function(e) {
-	    var _this = this;
-	    $.ajax({
-	        url: _this.action,
-	        type: _this.method,
-	        success: function(response) {
-	        	console.log(response);
-	        }
-	    });
-});
+// 	$('form[name=addItem]').submit(function(e) {
+// 	    var _this = this;
+// 	    $.ajax({
+// 	        url: _this.action,
+// 	        type: _this.method,
+// 	        success: function(response) {
+// 	        	console.log(response);
+// 	        }
+// 	    });
+// });
 </script>
