@@ -1,7 +1,25 @@
 <div class='col-xs-12 text-center'>
-    <h2><b>Make A Drink!</b></h2>
+		<h2>Drink Suggestions From the Bar</h2>
+		<div class="col-xs-12" style="background-color:#5C9DFF; height:3px;">
+		&nbsp;
+		</div>
+		<div class="col-xs-12" style="background-color:#000000; height:3px;">
+			&nbsp;
+		</div>
 </div>
-<div class='col-xs-12 text-center'>
+<div class='col-xs-6'>
+	<br/><br/>
+	<p><i>Are you feeling adventurous? Let us suggest a drink. <br/>
+	If there is something you don't like, let us know first:</i></p>	
+	<form action="">
+		<input type="checkbox" name="alcohol" value="alcohol" onclick="extendA();">I don't want certain types of alcohol</input><br/>
+		<div>
+		</div>
+		<input type="checkbox" name="mix" value="mix">I don't want certain types of Mix</input>
+		<div>
+		</div>
+	</form>
+	<br/>
     <button type="button" class='btn btn-danger randomize' onclick=""><span class="glyphicon glyphicon-play"></span> Randomize</button>
     <button type="button" class='btn btn-primary respin' onclick="" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
         <div class='details' style='display:none'>
@@ -44,7 +62,9 @@
                 </div>
                 <div class="row top-buffer"></div>
             </span>
-        </div>
+</div>
+<div class='col-xs-6 text-center'>
+&nbsp;
 </div>
 <script>
 $(document.body).on('click', '.randomize', function() {
@@ -52,4 +72,9 @@ $(document.body).on('click', '.randomize', function() {
     $('.details').fadeIn('slow');
     $('.respin').fadeIn('slow');
 });
+</script>
+<script>
+function extendA() {
+  
+}
 </script>

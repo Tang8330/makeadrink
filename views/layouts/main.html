@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="/css/customer.css">
 	<style>
 	div.wrapper {
 		padding-left: 15px;
@@ -15,19 +16,43 @@
 	</style>
 
 </head>
-
 <body height="100%">
     <script src="/lib/js/jquery-1.10.2.min.js"></script>
     <script src="/lib/js/bootstrap.min.js"></script>
-	<div class="wrapper">
-		<div class="row">
-			<div class="col-md-8" style="background-color:#ADEBAD;">&nbsp;</div>
-			<div class="col-md-4 text-right" style="background-color:#ADEBAD; color:#6B6C6B;"><a href="#">Contact Us</a></div>
-		</div>
-		<div class="row">
-			<div class="col-md-12" style="background-color:#ADEBAD">Name of our product</div>
-		</div>
-	</div>
+	{{#if restaurant}}
+	<div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/"><b>Fusion</b></a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#/main">Contact Us</a></li>
+        </ul>
+      </div><!-- /.nav-collapse -->
+    </div>
+	{{else}}
+	<div class="navbar navbar-default">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="" style="color:#5C9DFF;"><b>The Lounge</b></a>
+      </div>
+      <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#/menu" style="color:#0066FF;">Drink Menu</a></li>
+		  <li><a href="#/suggestedDrink" style="color:#0066FF;">Suggested Drink</a></li>
+        </ul>
+      </div><!-- /.nav-collapse -->
+    </div>
+	{{/if}}
     <div class="container">
         {{{body}}}
     </div>
