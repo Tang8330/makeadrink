@@ -111,9 +111,16 @@ module.exports = function(app) {
                     err: err
                 });
             } else {
-                res.render('customer/menu', {
-                    items: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('customer/menu', {
+                        items: result,
+                        owner: true
+                    });
+                } else {
+                    res.render('customer/menu', {
+                        items: result
+                    });
+                }
             }
         });
     });
@@ -125,9 +132,16 @@ module.exports = function(app) {
                     err: err
                 });
             } else {
-                res.render('customer/menu', {
-                    items: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('customer/menu', {
+                        items: result,
+                        owner: true
+                    });
+                } else {
+                    res.render('customer/menu', {
+                        items: result
+                    });
+                }
             }
         });
     });

@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
 
 var Account = new Schema({
     name: String,
+    role: String,
     dateAdded: {
         type: Date,
         default: Date.now
