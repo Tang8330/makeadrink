@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row">	
 	<div class="row">
 		<h1>Pending Orders</h1>
 			<table class="table table-bordered">
@@ -10,11 +10,13 @@
 					</tr>
 				<thead>
 				<tbody>
-					{{#each order}}
+					{{#each orders}}
 					<tr>
 						<td>{{tableNumber}}</td>
-						<td>{{items.1}}</td>
-						<td><button type="button" class="btn btn-md" data-toggle="modal" onclick="pass('{{items}}')" data-target="#viewOrder">View</button></td>
+						
+						<td>{{#each items}} {{name}} {{/each}}</td>
+
+						<td><button type="button" class="btn btn-md" data-toggle="modal" onclick="pass('{{items}}', '{{id}}')" data-target="#viewOrder">View</button></td>
 					</tr>
 					{{/each}}
 				</tbody>
@@ -22,34 +24,35 @@
 			<div class="modal fade" id="viewOrder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
+						<form name="viewOrder" action="/order/edit" method="post">
 							<div class="modal-header">
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 								<h4 class="modal-title"><b>View Order</b></h4>
 							</div>
 							<div class="modal-body">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<td>Name</td>
-											<td>Quantity</td>
-											<td>Special Request</td>
-										</tr>
-									</thead>
+								<table class="table table-striped" id="orderDetails">
 								</table>
+								<input type="text" style="display:none" name="id" id="viewID" value="">
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear()">Cancel</button>
 								<button type="submit" class="btn btn-primary">Complete</button>
 							</div>
+						</form>
 					</div>
 				</div>
 			</div>
     </div>
 </div>
 <script>
-	function pass (items) {
-		var table = document.getElementById("itemAttributes");
+	function pass (items, id) {
+		console.log(id);
+		var table = document.getElementById("orderDetails");
+		console.log('g');
+		items = JSON.parse(items) || [];
+		console.log('l');
 		for (var i = 0; i < items.length; i++) {
+			table.innerHTML = "<thead> <tr>	<td><strong>Name</strong></td> <td><strong>Quantity</strong></td> <td><strong>Special Request</strong></td> </tr> </thead>";
 			var row = table.insertRow(-1);
 			var name = row.insertCell(0);
 			var quantity = row.insertCell(1);
@@ -58,5 +61,29 @@
 			quantity.innerHTML = items[i]['quantity'];
 			specReq.innerHTML = items[i]['request'];
 		}
+		console.log('setting', id);	
+		$('#viewID').val(id);
 	}
-</script>
+
+	function clear () {
+		var table = document.getElementById("orderDetails");
+		table.innerHTML = "";
+	}
+
+	$('form[name=viewOrder]').submit(function(e) {
+    var _this = this;
+    e.preventDefault();
+    var id = $('#viewID').val();
+    console.log(id);
+    var status = {'statusCode' : 2};
+    $.ajax({
+        url: _this.action + "/" + id,
+        type: _this.method,
+        dataType: "json",
+        data: status,
+        success: function(response) {
+            $("#viewOrder").modal("hide");
+        }
+    });
+});
+</script>	

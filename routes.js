@@ -487,7 +487,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.get('/order/id/:req.params.id', function(req, res) {
+    app.get('/order/id/:id', function(req, res) {
         Order.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('restaurant/order', {
@@ -501,9 +501,10 @@ module.exports = function(app) {
         });
     });
     app.post('/order/edit/:id', function(req, res) {
+        console.log(req.body);
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
-        conditions.lastModifiedBy = req.user;
+        //conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
         if (tableNumber === undefined) {
             tableNumber = randomNumber();
@@ -525,7 +526,7 @@ module.exports = function(app) {
                 } else {
                     Order.update({
                         '_id': req.params.id
-                    }, conditions, req.user, function(err2, result2) {
+                    }, conditions, function(err2, result2) {
                         if (err2) {
                             res.send(500, err2);
                         } else {
