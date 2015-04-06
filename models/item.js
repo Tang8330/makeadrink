@@ -29,7 +29,6 @@ var create = function(request, cb) {
     var keys = Object.keys(request);
     async.forEach(keys, function(el, callback) {
         instance[el] = request[el];
-        console.log(instance[el], request[el]);
         callback();
     }, function() {
         instance.save(function(err, result) {

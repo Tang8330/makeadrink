@@ -37,7 +37,13 @@
 			</tr>
 			<tr>
 				<td class="text-right"><label for="ingredients">Ingredients:&nbsp; </label></td>
-				<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"></input></td>
+				<td><input class="buff5 form-control" type="text" name="ingredients" placeholder="Ingredients"/></td>
+			</tr>
+			<tr>
+				<div class="fallback">
+				<td class="text-right"><label for="pictures">Picture:&nbsp; </label></td>
+				<td><input class="buff5 form-control" type="file" name="files" placeholder="Picture"/></td>
+				</div>
 			</tr>
 		</table>
 		<table width="90%">
@@ -56,6 +62,7 @@
 </div>
 <script>
 	var newRow = false;
+
 	$('#addIngredient').on('click', function(e) {
 		var table = document.getElementById("itemAttributes");
 		if (newRow) {

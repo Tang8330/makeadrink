@@ -222,8 +222,11 @@ module.exports = function(app) {
                 }
             });
         });
+        console.log(req.body.files.file.originalFilename, 'gg22g');
         p.then(function success(result) {
             if (req.files) {
+                delete coditions.files; 
+                console.log('ggg', conditions);
             fs.readFile(req.files.file.path, function(err, data) {
                 var folder = path.join('assets', result._id, req.files.file.originalFilename),
                     pathNew = path.join(__dirname, 'public', folder);
@@ -240,7 +243,6 @@ module.exports = function(app) {
                 });
             });                
         } else {
-            console.log('pls');
             res.render('restaurant/addItem', {
                 item: result,
                 msg : 'Successfully added this item'
