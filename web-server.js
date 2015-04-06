@@ -16,7 +16,7 @@ var app = express();
 var errorHandler = require('express-error-handler'),
     handler = errorHandler({
         static: {
-            '404': '404.html',
+            '404': 'public/404.html',
         }
     });
 app.engine('html', exphbs({
