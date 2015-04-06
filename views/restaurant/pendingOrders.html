@@ -4,17 +4,17 @@
 			<table class="table table-bordered">
 				<thead>
 					<tr>
-						<th> Order Number </th>
 						<th> Table </th>
+						<th> Preview </th>
 					</tr>
 				<thead>
 				<tbody>
+					{{#each order}}
 					<tr>
-						<td>ss
-						</td>
-						<td>dd
-						</td>
+						<td>{{tableNumber}}</td>
+						<td>{{items.1}}</td>
 					</tr>
+					{{/each}}
 				</tbody>
 			</table>	
     </div>
