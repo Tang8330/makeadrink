@@ -135,7 +135,7 @@ module.exports = function(app) {
             });
         });
         p.then(function success(data) {
-            Item.findByID(req.params.id, function(err, result) {
+            Item.findById(req.params.id, function(err, result) {
                 if (err) {
                     res.render('customer/viewItem', {
                         message: err
@@ -277,9 +277,7 @@ module.exports = function(app) {
                                 });
                             } else {
                                 fs.writeFile(pathNew, data, function(error) {
-                                    console.log(pathNew);
                                     if (error) {
-                                        console.log('err', error);
                                         res.render('restaurant/addItem', {
                                             message: error
                                         });
@@ -337,17 +335,12 @@ module.exports = function(app) {
                 var items = result[0] || {
                     items: ''
                 }
-                console.log('items', items);
                 async.forEach(items.items, function(el, callback) {
-                    console.log('el', el);
-                    //el = JSON.parse(el);
-                    console.log('looking for item', el);
                     if (el.id) {
                         Item.findById(el.id, function(error, itemz) {
                             if (err) {
                                 callback();
                             } else {
-                                console.log(itemz, 'item');
                                 total = total + itemz.price;
                                 callback();
                             }
@@ -410,7 +403,6 @@ module.exports = function(app) {
             } else {
                 var params = {};
                 var host = [];
-                console.log(JSON.parse(conditions.items), JSON.parse(conditions.items) instanceof Array);
                 host.push.apply(host, JSON.parse(conditions.items));
                 if (data[0].items) {
                     host.push.apply(host, data[0].items);
@@ -418,7 +410,6 @@ module.exports = function(app) {
                 conditions.items = host;
                 params.tableNumber = tableNumber;
                 params.statusCode = 1; //ORDERSTATUS_SENT, export later
-                console.log('Conditions', conditions.items);
                 Order.update(params, conditions, function(err, result) {
                     if (err) {
                         res.send(500, e);
@@ -472,9 +463,20 @@ module.exports = function(app) {
                 }
             });
         }
-
     });
-
+    app.get('/order/stats', function(req, res) {
+        Item.findAll(function(err, collection) {
+            if (err) {
+                res.render('restaurant/data', {
+                    err: err
+                });
+            } else {
+                res.render('restaurant/data', {
+                    items: collection
+                });
+            }
+        });
+    });
     app.get('/customer/randomizer', function(req, res) {
         res.render('randomize');
     });
@@ -534,7 +536,6 @@ module.exports = function(app) {
         });
     });
     app.post('/order/edit/:id', function(req, res) {
-        console.log(req.body);
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
         //conditions.lastModifiedBy = req.user;
