@@ -2,59 +2,36 @@
     <div class="col-xs-12">
 		<h1 class="text-center">The Lounge Data</h1>
 		<br/>
-		<div class="col-xs-6">
+		<div class="col-xs-12">
 			<h4>Top Drink at The Lounge</h4>
 			<p>This week's top drink was drink. Percentage% of drinks were drink.</p>
 		</div>
-		<div class="col-xs-6">
+		<div class="col-xs-12">
 			<h4>Drinks ordered each day</h4>
 			<p>putting a graph in here.</p>
 		</div>
     </div>
-	<div class="col-xs-12">
-		<div class="col-xs-6">
-			<h4>Five favourite drink ingredients</h4>
-			<ol>
-				<li>carlie</li>
-				<li>Rob</li>
-				<li>Reese</li>
-				<li>Reese</li>
-				<li>Rob</li>
-			</ol>
+	<div class="col-xs-12">				
+		<div class="col-xs-12">
+			<h4>Item views versus number of times item has been ordered</h4>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Drink</th>
+						<th>Number of views</th>
+						<th>Number of orders</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{#each items}}
+					<tr>
+						<td>{{name}}</strong></td>
+						<td>{{views}}</td>						
+						<td>orders</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
 		</div>
-		<div class="col-xs-6">
-			<h4>Five least favourite drink ingredients</h4>
-			<ol>
-				<li>carlie</li>
-				<li>Rob</li>
-				<li>Reese</li>
-				<li>Reese</li>
-				<li>Rob</li>
-			</ol>
-		</div>
-		<div class="col-xs-12">				
-				<div class="col-xs-12">
-					<table height="150px;">
-						<thead>
-							<tr>
-								<th>Drink</th>
-								<th>Number of views</th>
-								<th>Number of orders</th>
-							</tr>
-						</thead>
-						<tbody>
-						{{#each items}}
-							<tr style="height:20%;">
-								<td><strong>Drink name:&nbsp;</td>
-								<td>{{name}}</strong></td>
-							</tr>
-							<tr style="height:20%;">
-								<td colspan="2">{{views}}</td>
-							<tr style="height:20%;">						
-								<td colspan="2">{{}}</td>
-							</tr>
-						{{/each}}
-						</tbody>
-					</table>
-				</div>
+	</div>	
 </div>
