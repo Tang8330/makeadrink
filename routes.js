@@ -267,10 +267,6 @@ module.exports = function(app) {
             });
     });
 
-    app.get('/customer/randomizer', function(req, res) {
-        res.render('customer/randomize');
-    });
-
     app.get('/item/id/:req.params.id', function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
@@ -375,7 +371,7 @@ module.exports = function(app) {
         });
 
     });
-    app.post('/robin', function(req, res) {
+    app.post('/customer/randomizer', function(req, res) {
         var likes = [],
             dislikes = [];
         if (req.body.like && !(req.body.like instanceof Array)) {
@@ -415,9 +411,15 @@ module.exports = function(app) {
         }
 
     });
-    app.get('/robin', function(req, res) {
+
+    app.get('/customer/randomizer', function(req, res) {
         res.render('randomize');
     });
+
+     app.get('/contact', function(req, res) {
+        res.render('contact');
+    });
+
     app.get('/order/all', function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
