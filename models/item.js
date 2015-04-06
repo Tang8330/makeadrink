@@ -117,6 +117,8 @@ var randomizeLikesDislikes = function(likes, dislikes, callback) {
                         }
                     }
                 }
+            }, {
+                'isDeleted': false
             }]
         },
         function(err, result) {
@@ -143,6 +145,8 @@ var randomize = function(likes, dislikes, callback) {
                         }
                     }
                 }
+            }, {
+                'isDeleted': false
             }]
         },
         function(err, result) {
