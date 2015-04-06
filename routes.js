@@ -329,12 +329,12 @@ module.exports = function(app) {
             total = 0;
         Order.findByTable(tableNumber, function(err, result) {
             if (err) {
-                res.render('customer/menu', {
+                res.render('customer/bill', {
                     err: err
                 });
             } else {
                 //results
-                async.ForEach(result.items, function(el, callback) {
+                async.forEach(result.items, function(el, callback) {
                     Item.findByID(el._id, function(error, item) {
                         if (err) {
                             callback();
@@ -344,7 +344,7 @@ module.exports = function(app) {
                         }
                     });
                 }, function() {
-                    res.render('customer/menu', {
+                    res.render('customer/bill', {
                         item: result,
                         total: total
                     });

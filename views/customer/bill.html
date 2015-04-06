@@ -1,0 +1,26 @@
+<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<td>Drink</td>
+				<td>Price</td>
+				<td>Quantity</td>
+				<td>Subtotal</td>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="3">Total</td>
+				<td>{{total}}</td>
+			</tr>
+		</tfoot>
+		{{#each item}}
+			<tr>
+				<td>{{name}}</td>
+				<td>{{price}}</td>
+				<td>{{quantity}}</td>
+				<td>subtotal</td>
+			</tr>
+		{{/each}}
+	</table>
+</div>
