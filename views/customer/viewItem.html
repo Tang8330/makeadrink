@@ -1,17 +1,22 @@
 <div class="row col-xs-8">
+    <h1 class="text-center">{{item.name}}</h1>
 	<br/>
 	<div class="row col-xs-4">
 	<br/><br/><br/>
+	<img src="{{item.picture}}"></img>
 </div>
 	<table>
 		<tr>
 			<td><strong>Price:&nbsp;</td>
+			<td>${{item.price}}</td>
 		</tr>
 		<tr>
 			<td><strong>Description:&nbsp;</td>
+			<td>{{item.desc}}</td>
 		</tr>
 		<tr>	
 			<td><strong>Ingredients:&nbsp;</td>
+			<td>{{item.ingredients}}</td>
 		</tr>
 		<tr>
 			<td colspan="2">&nbsp;
@@ -19,5 +24,4 @@
 		</tr>
 	</table>
 </div>
-
 
