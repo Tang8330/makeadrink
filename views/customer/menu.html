@@ -216,6 +216,7 @@
             type: _this.method,
             success: function(response) {
                 $("#viewOrder").modal("hide");
+                $.removeCookie("cart");
             }
         });
     });
