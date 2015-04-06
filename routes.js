@@ -17,6 +17,14 @@ var titles = {
     'editItem': 'Mix Dat Up | Edit Item'
 };
 
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    } else {
+        res.redirect('/account/login');
+    }
+};
+
 function randomNumber() {
     'use strict';
     return Math.floor(Math.random() * 90000) + 10000;
@@ -110,7 +118,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/menu', function(req, res) {
+    app.get('/menu', ensureAuthenticated, function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
                 res.render('customer/menu', {
@@ -124,7 +132,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/item/view/:id', function(req, res) {
+    app.get('/item/view/:id', ensureAuthenticated, function(req, res) {
         var p = new Promise(function(resolve, reject) {
             Item.increaseView(req.params.id, function(err, result) {
                 if (err) {
@@ -152,7 +160,7 @@ module.exports = function(app) {
             });
         });
     });
-    app.get('/item/picture/:id', function(req, res) {
+    app.get('/item/picture/:id', ensureAuthenticated, function(req, res) {
         var itemPath = path.join(__dirname, 'public', 'assets', req.params.id);
         fs.readdir(itemPath, function(err, items) {
             if (items && items.length > 0) {
@@ -163,7 +171,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.get('/item/edit/:id', function(req, res) {
+    app.get('/item/edit/:id', ensureAuthenticated, function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('restaurant/editItem', {
@@ -176,7 +184,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.get('/item/delete/:id', function(req, res) {
+    app.get('/item/delete/:id', ensureAuthenticated, function(req, res) {
         Item.update({
             _id: req.params.id
         }, {
@@ -189,7 +197,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.post('/item/edit/:id', function(req, res) {
+    app.post('/item/edit/:id', ensureAuthenticated, function(req, res) {
         var conditions = req.body;
         conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
@@ -227,7 +235,7 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/item/edit', function(req, res) {
+    app.get('/item/edit', ensureAuthenticated, function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
                 res.render('restaurant/editItem', {
@@ -241,19 +249,19 @@ module.exports = function(app) {
         });
     });
 
-    app.get('/item/add', function(req, res) {
+    app.get('/item/add', ensureAuthenticated, function(req, res) {
         res.render('restaurant/addItem');
     });
     /**
      * These 2 functions need update on the view render path
      **/
-    app.post('/item/add', function(req, res) {
+    app.post('/item/add', ensureAuthenticated, function(req, res) {
         var conditions = req.body;
         if (req.files.filezilla) {
             conditions.pictures = true;
         }
-        //conditions.owner = req.user;
-        //conditions.lastModifiedBy = req.user;
+        conditions.owner = req.user;
+        conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
         var p = new Promise(function(resolve, reject) {
             Item.create(conditions, function(err, result) {
@@ -307,7 +315,7 @@ module.exports = function(app) {
             });
     });
 
-    app.get('/item/id/:req.params.id', function(req, res) {
+    app.get('/item/id/:req.params.id', ensureAuthenticated, function(req, res) {
         Item.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('customer/item', {
@@ -322,7 +330,7 @@ module.exports = function(app) {
     });
 
 
-    app.get('/order/bill', function(req, res) {
+    app.get('/order/bill', ensureAuthenticated, function(req, res) {
         var tableNumber = req.cookies.table_number || 0,
             total = 0;
         Order.findByTable(tableNumber, function(err, result) {
@@ -354,13 +362,11 @@ module.exports = function(app) {
                         item: result,
                         total: total
                     });
-
                 });
-
             }
         });
     });
-    app.post('/order/add', function(req, res) {
+    app.post('/order/add', ensureAuthenticated, function(req, res) {
         var tableNumber = req.cookies.table_number,
             conditions = {};
         conditions['items'] = req.cookies.cart;
@@ -372,9 +378,9 @@ module.exports = function(app) {
         if (!conditions || conditions.length === 0) {
             res.send(500, 'Empty, no data sent');
         }
-        //conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
-        //conditions.owner = req.user;
+        conditions.owner = req.user;
         conditions.tableNumber = tableNumber;
 
         var p = new Promise(function(resolve, reject) {
@@ -425,7 +431,7 @@ module.exports = function(app) {
         });
 
     });
-    app.post('/customer/randomizer', function(req, res) {
+    app.post('/customer/randomizer', ensureAuthenticated, function(req, res) {
         var likes = [],
             dislikes = [];
         if (req.body.like && !(req.body.like instanceof Array)) {
@@ -464,7 +470,7 @@ module.exports = function(app) {
             });
         }
     });
-    app.get('/order/stats', function(req, res) {
+    app.get('/order/stats', ensureAuthenticated, function(req, res) {
         Item.findAll(function(err, collection) {
             if (err) {
                 res.render('restaurant/data', {
@@ -477,7 +483,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.get('/customer/randomizer', function(req, res) {
+    app.get('/customer/randomizer', ensureAuthenticated, function(req, res) {
         res.render('randomize');
     });
 
@@ -485,7 +491,7 @@ module.exports = function(app) {
         res.render('contact');
     });
 
-    app.get('/order/all', function(req, res) {
+    app.get('/order/all', ensureAuthenticated, function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
                 res.render('restaurant/allOrders', {
@@ -507,7 +513,7 @@ module.exports = function(app) {
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
     });
-    app.get('/order/pending', function(req, res) {
+    app.get('/order/pending', ensureAuthenticated, function(req, res) {
         Order.find({
             'statusCode': 1
         }, null, {}, function(err, collection) {
@@ -522,7 +528,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.get('/order/id/:id', function(req, res) {
+    app.get('/order/id/:id', ensureAuthenticated, function(req, res) {
         Order.findByID(req.params.id, function(err, result) {
             if (err) {
                 res.render('restaurant/order', {
@@ -535,7 +541,7 @@ module.exports = function(app) {
             }
         });
     });
-    app.post('/order/edit/:id', function(req, res) {
+    app.post('/order/edit/:id', ensureAuthenticated, function(req, res) {
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
         //conditions.lastModifiedBy = req.user;
