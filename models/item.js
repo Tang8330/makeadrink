@@ -3,6 +3,10 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var Item = new Schema({
+    view: {
+        type: Number,
+        default: 0
+    },
     name: String,
     price: Number,
     ingredients: [],
@@ -26,6 +30,7 @@ var Item = new Schema({
 });
 
 var tempItem = mongoose.model('Item', Item);
+
 
 var create = function(request, cb) {
     var instance = new tempItem();
@@ -153,6 +158,25 @@ var randomize = function(likes, dislikes, callback) {
             }
         });
 };
+
+var increaseView = function(id, callback) {
+    tempItem.findById(id, function(err, result) {
+        if (err) {
+            callback(err, null);
+        } else {
+            var instance = result;
+            instance.view += 1;
+            instance.save(function(err, res) {
+                if (err) {
+                    callback(err, null);
+                } else {
+                    callback(null, result);
+                }
+            });
+        }
+    });
+}
+
 module.exports = mongoose.model('Item', Item);
 module.exports.create = create;
 module.exports.update = update;
@@ -162,3 +186,4 @@ module.exports.count = count;
 module.exports.findByID = findByID;
 module.exports.randomize = randomize;
 module.exports.randomizeLikesDislikes = randomizeLikesDislikes;
+module.exports.increaseView = increaseView;

@@ -124,16 +124,31 @@ module.exports = function(app) {
     });
 
     app.get('/item/view/:id', function(req, res) {
-        Item.findByID(req.params.id, function(err, result) {
-            if (err) {
-                res.render('restaurant/viewItem', {
-                    message: err
-                });
-            } else {
-                res.render('restaurant/viewItem', {
-                    item: result
-                });
-            }
+        var p = new Promise(function(resolve, reject) {
+            Item.increaseView(req.params.id, function(err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+        p.then(function success(data) {
+            Item.findByID(req.params.id, function(err, result) {
+                if (err) {
+                    res.render('restaurant/viewItem', {
+                        message: err
+                    });
+                } else {
+                    res.render('restaurant/viewItem', {
+                        item: result
+                    });
+                }
+            });
+        }, function error(e) {
+            res.render('restaurant/viewItem', {
+                message: err
+            });
         });
     });
     app.get('/item/edit/:id', function(req, res) {
@@ -416,7 +431,7 @@ module.exports = function(app) {
         res.render('randomize');
     });
 
-     app.get('/contact', function(req, res) {
+    app.get('/contact', function(req, res) {
         res.render('contact');
     });
 
@@ -435,7 +450,9 @@ module.exports = function(app) {
     });
 
     app.get('/500', function(req, res) {
-        res.render('500', {error : 'you know better'});
+        res.render('500', {
+            error: 'you know better'
+        });
     });
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
