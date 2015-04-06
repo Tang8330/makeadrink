@@ -76,8 +76,6 @@ var count = function(callback) {
     });
 };
 
-
-
 var findByID = function(id, callback) {
     tempOrder.findById(id, function(err, result) {
         if (err) {

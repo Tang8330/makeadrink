@@ -234,11 +234,9 @@ module.exports = function(app) {
                 }
             });
         });
-        console.log(req.body.files.file.originalFilename, 'gg22g');
         p.then(function success(result) {
                 if (req.files) {
                     delete coditions.files;
-                    console.log('ggg', conditions);
                     fs.readFile(req.files.file.path, function(err, data) {
                         var folder = path.join('assets', result._id, req.files.file.originalFilename),
                             pathNew = path.join(__dirname, 'public', folder);
@@ -437,7 +435,21 @@ module.exports = function(app) {
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
     });
-
+    app.get('/order/pending', function(req, res) {
+        Order.find({
+            'statusCode': 1
+        }, null, {}, function(err, collection) {
+            if (err) {
+                res.render('restaurant/pendingOrders', {
+                    err: err
+                });
+            } else {
+                res.render('restaurant/pendingOrders', {
+                    orders: collection
+                });
+            }
+        });
+    });
     app.get('/order/id/:req.params.id', function(req, res) {
         Order.findByID(req.params.id, function(err, result) {
             if (err) {
