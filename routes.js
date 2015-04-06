@@ -33,7 +33,7 @@ module.exports = function(app) {
     'use strict';
     app.post('/account/login',
         passport.authenticate('local', {
-            successRedirect: '/',
+            successRedirect: '/home',
             failureRedirect: '/account/login'
         }));
     app.get('/account/login', function(req, res) {
@@ -169,19 +169,44 @@ module.exports = function(app) {
         p.then(function success(data) {
             Item.findById(req.params.id, function(err, result) {
                 if (err) {
-                    res.render('customer/viewItem', {
-                        message: err
-                    });
+
+                    if (req.user.role === 'owner') {
+                        res.render('customer/viewItem', {
+                            owner: true,
+                            err: err
+                        });
+                    } else {
+                        res.render('customer/viewItem', {
+                            customer: true,
+                            err: err
+                        });
+                    }
                 } else {
-                    res.render('customer/viewItem', {
-                        item: result
-                    });
+
+                    if (req.user.role === 'owner') {
+                        res.render('customer/viewItem', {
+                            owner: true,
+                            item: result
+                        });
+                    } else {
+                        res.render('customer/viewItem', {
+                            customer: true,
+                            item: result
+                        });
+                    }
                 }
             });
         }, function error(e) {
-            res.render('customer/viewItem', {
-                message: err
-            });
+            if (req.user.role === 'owner') {
+                res.render('customer/viewItem', {
+                    owner: true,
+                    err: err
+                });
+            } else {
+                res.render('customer/viewItem', {
+                    customer: true
+                });
+            }
         });
     });
     app.get('/item/picture/:id', ensureAuthenticated, function(req, res) {
@@ -198,13 +223,30 @@ module.exports = function(app) {
     app.get('/item/edit/:id', ensureAuthenticated, function(req, res) {
         Item.findById(req.params.id, function(err, result) {
             if (err) {
-                res.render('restaurant/editItem', {
-                    message: err
-                });
+
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/editItem', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('restaurant/editItem', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                res.render('restaurant/editItem', {
-                    item: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/editItem', {
+                        owner: true,
+                        item: result
+                    });
+                } else {
+                    res.render('restaurant/editItem', {
+                        customer: true,
+                        item: result
+                    });
+                }
             }
         });
     });
@@ -242,39 +284,88 @@ module.exports = function(app) {
                     pathNew = path.join(__dirname, 'public', folder);
                 fs.writeFile(pathNew, data, function(error) {
                     if (error) {
-                        res.render('restaurant/editItem', {
-                            message: error
-                        });
+
+                        if (req.user.role === 'owner') {
+                            res.render('restaurant/editItem', {
+                                owner: true,
+                                err: error
+                            });
+                        } else {
+                            res.render('restaurant/editItem', {
+                                customer: true,
+                                err: error
+                            });
+                        }
                     } else {
-                        res.render('restaurant/editItem', {
-                            item: result
-                        });
+                        if (req.user.role === 'owner') {
+                            res.render('restaurant/editItem', {
+                                owner: true,
+                                item: result
+                            });
+                        } else {
+                            res.render('restaurant/editItem', {
+                                customer: true,
+                                item: result
+                            });
+                        }
                     }
                 });
             });
         }, function error(e) {
-            res.render('restaurant/editItem', {
-                message: e
-            });
+            if (req.user.role === 'owner') {
+                res.render('restaurant/editItem', {
+                    owner: true,
+                    err: e
+                });
+            } else {
+                res.render('restaurant/editItem', {
+                    customer: true,
+                    err: e
+                });
+            }
         });
     });
 
     app.get('/item/edit', ensureAuthenticated, function(req, res) {
         Item.findAll(function(err, result) {
             if (err) {
-                res.render('restaurant/editItem', {
-                    message: err
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/editItem', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('restaurant/editItem', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                res.render('restaurant/editItem', {
-                    items: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/editItem', {
+                        owner: true,
+                        items: result
+                    });
+                } else {
+                    res.render('restaurant/editItem', {
+                        customer: true,
+                        items: result
+                    });
+                }
             }
         });
     });
 
     app.get('/item/add', ensureAuthenticated, function(req, res) {
-        res.render('restaurant/addItem');
+        if (req.user.role === 'owner') {
+            res.render('restaurant/addItem', {
+                owner: true
+            });
+        } else {
+            res.render('restaurant/addItem', {
+                customer: true
+            });
+        }
     });
     /**
      * These 2 functions need update on the view render path
@@ -310,13 +401,29 @@ module.exports = function(app) {
                             } else {
                                 fs.writeFile(pathNew, data, function(error) {
                                     if (error) {
-                                        res.render('restaurant/addItem', {
-                                            message: error
-                                        });
+                                        if (req.user.role === 'owner') {
+                                            res.render('restaurant/addItem', {
+                                                owner: true,
+                                                err: error
+                                            });
+                                        } else {
+                                            res.render('restaurant/addItem', {
+                                                customer: true,
+                                                err: error
+                                            });
+                                        }
                                     } else {
-                                        res.render('restaurant/addItem', {
-                                            item: result
-                                        });
+                                        if (req.user.role === 'owner') {
+                                            res.render('restaurant/addItem', {
+                                                owner: true,
+                                                item: result
+                                            });
+                                        } else {
+                                            res.render('restaurant/addItem', {
+                                                customer: true,
+                                                item: result
+                                            });
+                                        }
                                     }
                                 });
                             }
@@ -325,30 +432,64 @@ module.exports = function(app) {
 
                     });
                 } else {
-                    res.render('restaurant/addItem', {
-                        item: result,
-                        msg: 'Successfully added this item'
-                    });
+
+                    if (req.user.role === 'owner') {
+                        res.render('restaurant/addItem', {
+                            owner: true,
+                            item: result,
+                            msg: 'Successfully added this item'
+                        });
+                    } else {
+                        res.render('restaurant/addItem', {
+                            customer: true,
+                            item: result,
+                            msg: 'Successfully added this item'
+                        });
+                    }
                 }
 
             },
             function error(e) {
-                res.render('restaurant/addItem', {
-                    message: e
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/addItem', {
+                        owner: true,
+                        err: e
+                    });
+                } else {
+                    res.render('restaurant/addItem', {
+                        customer: true,
+                        err: e
+                    });
+                }
             });
     });
 
     app.get('/item/id/:req.params.id', ensureAuthenticated, function(req, res) {
         Item.findById(req.params.id, function(err, result) {
             if (err) {
-                res.render('customer/item', {
-                    err: err
-                });
+                if (req.user.role === 'owner') {
+                    res.render('customer/item', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('customer/item', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                res.render('customer/item', {
-                    item: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('customer/item', {
+                        owner: true,
+                        item: result
+                    });
+                } else {
+                    res.render('customer/item', {
+                        customer: true,
+                        item: result
+                    });
+                }
             }
         });
     });
@@ -359,11 +500,18 @@ module.exports = function(app) {
             total = 0;
         Order.findByTable(tableNumber, function(err, result) {
             if (err) {
-                res.render('customer/bill', {
-                    err: err
-                });
+                if (req.user.role === 'owner') {
+                    res.render('customer/bill', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('customer/bill', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                //results
                 var items = result[0] || {
                     items: ''
                 }
@@ -382,10 +530,20 @@ module.exports = function(app) {
                     }
 
                 }, function() {
-                    res.render('customer/bill', {
-                        item: result,
-                        total: total
-                    });
+
+                    if (req.user.role === 'owner') {
+                        res.render('customer/bill', {
+                            owner: true,
+                            total: total,
+                            item: result
+                        });
+                    } else {
+                        res.render('customer/home', {
+                            customer: true,
+                            total: total,
+                            item: result
+                        });
+                    }
                 });
             }
         });
@@ -449,9 +607,7 @@ module.exports = function(app) {
                 });
             }
         }, function error(e) {
-            res.render('restaurant/order', {
-                err: e
-            });
+            res.send(500, e);
         });
 
     });
@@ -474,52 +630,52 @@ module.exports = function(app) {
                     if (req.user.role === 'owner') {
                         res.render('randomize', {
                             err: err,
-                            owner : true
+                            owner: true
                         });
                     } else {
                         res.render('randomize', {
                             err: err,
-                            customer : true
+                            customer: true
                         });
                     }
                 } else {
                     if (req.user.role === 'owner') {
                         res.render('randomize', {
                             result: result,
-                            owner : true
+                            owner: true
                         });
                     } else {
                         res.render('randomize', {
                             result: result,
-                            customer : true
+                            customer: true
                         });
                     }
                 }
             });
         } else {
             Item.randomize(likes, dislikes, function(err, result) {
-               if (err) {
+                if (err) {
                     if (req.user.role === 'owner') {
                         res.render('randomize', {
                             err: err,
-                            owner : true
+                            owner: true
                         });
                     } else {
                         res.render('randomize', {
                             err: err,
-                            customer : true
+                            customer: true
                         });
                     }
                 } else {
                     if (req.user.role === 'owner') {
                         res.render('randomize', {
                             result: result,
-                            owner : true
+                            owner: true
                         });
                     } else {
                         res.render('randomize', {
                             result: result,
-                            customer : true
+                            customer: true
                         });
                     }
                 }
@@ -529,13 +685,30 @@ module.exports = function(app) {
     app.get('/order/stats', ensureAuthenticated, function(req, res) {
         Item.findAll(function(err, collection) {
             if (err) {
-                res.render('restaurant/data', {
-                    err: err
-                });
+
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/data', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('restaurant/data', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                res.render('restaurant/data', {
-                    items: collection
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/data', {
+                        owner: true,
+                        items: collection
+                    });
+                } else {
+                    res.render('restaurant/data', {
+                        customer: true,
+                        items: collection
+                    });
+                }
             }
         });
     });
@@ -546,7 +719,7 @@ module.exports = function(app) {
             });
         } else {
             res.render('randomize', {
-                customer : true
+                customer: true
             });
         }
     });
@@ -558,13 +731,29 @@ module.exports = function(app) {
     app.get('/order/all', ensureAuthenticated, function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
-                res.render('restaurant/allOrders', {
-                    message: err
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/allOrders', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('restaurant/allOrders', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                res.render('restaurant/allOrders', {
-                    orders: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/allOrders', {
+                        owner: true,
+                        orders: result
+                    });
+                } else {
+                    res.render('restaurant/allOrders', {
+                        customer: true,
+                        orders: result
+                    });
+                }
             }
         });
     });
@@ -586,29 +775,53 @@ module.exports = function(app) {
                     err: err
                 });
             } else {
-                res.render('restaurant/pendingOrders', {
-                    orders: collection
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/pendingOrders', {
+                        owner: true,
+                        orders: collection
+                    });
+                } else {
+                    res.render('restaurant/pendingOrders', {
+                        orders: collection,
+                        customer: true
+                    });
+                }
             }
         });
     });
     app.get('/order/id/:id', ensureAuthenticated, function(req, res) {
         Order.findById(req.params.id, function(err, result) {
             if (err) {
-                res.render('restaurant/order', {
-                    message: err
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/order', {
+                        owner: true,
+                        err: err
+                    });
+                } else {
+                    res.render('restaurant/order', {
+                        customer: true,
+                        err: err
+                    });
+                }
             } else {
-                res.render('restaurant/order', {
-                    order: result
-                });
+                if (req.user.role === 'owner') {
+                    res.render('restaurant/order', {
+                        owner: true,
+                        order: result
+                    });
+                } else {
+                    res.render('restaurant/order', {
+                        customer: true,
+                        order: result
+                    });
+                }
             }
         });
     });
     app.post('/order/edit/:id', ensureAuthenticated, function(req, res) {
         var tableNumber = req.cookies.table_number,
             conditions = req.body;
-        //conditions.lastModifiedBy = req.user;
+        conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
         if (tableNumber === undefined) {
             tableNumber = randomNumber();
