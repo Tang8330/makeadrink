@@ -432,6 +432,9 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/500', function(req, res) {
+        res.render('500', {error : 'you know better'});
+    });
     app.get('/', function(req, res) {
         res.sendfile('app/index.html');
     });
