@@ -725,7 +725,22 @@ module.exports = function(app) {
     });
 
     app.get('/contact', function(req, res) {
-        res.render('contact');
+        if (req.user) {
+            if (req.user.role === 'owner') {
+                res.render('contact', {
+                    owner: true
+                });
+            } else {
+                res.render('contact', {
+                    customer: true
+                });
+            }
+        } else {
+
+            res.render('contact');
+        }
+
+
     });
 
     app.get('/order/all', ensureAuthenticated, function(req, res) {
