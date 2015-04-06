@@ -159,7 +159,6 @@
 <script src="/js/jquery.cookie.js"></script>
 <script>
 $.cookie.json = true;
-var items = [];
 
 function passView(name, id) {
 	$('#viewID').val(id);
@@ -190,6 +189,7 @@ function passDelete(id) {
         var _this = this;
         e.preventDefault();
         var data = $(_this).serializeObject();
+        var items = $.cookie("cart") || [];
         items.push(data);
 
         if ($.cookie("cart")) {
