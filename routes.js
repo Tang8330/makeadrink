@@ -149,7 +149,19 @@ module.exports = function(app) {
             }
         });
     });
-
+    app.get('/item/delete/:id', function(req, res) {
+        Item.update({
+            _id: req.params.id
+        }, {
+            'isDeleted': true
+        }, function(err, result) {
+            if (err) {
+                res.send(500);
+            } else {
+                res.send(200);
+            }
+        });
+    });
     app.post('/item/edit/:id', function(req, res) {
         var conditions = req.body;
         conditions.lastModifiedBy = req.user;
@@ -379,7 +391,7 @@ module.exports = function(app) {
             dislikes = req.body.dislikes;
         }
         if (likes.length > 0) {
-            Item.randomizeLikesDislikes(likes, dislikes, function(err, result) {
+            Item.randomize(likes, dislikes, function(err, result) {
                 if (err) {
                     res.render('randomize', {
                         err: err

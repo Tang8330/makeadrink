@@ -12,7 +12,10 @@ var Item = new Schema({
     category: Object,
     desc: String,
     pictures: [],
-    isDeleted: Boolean,
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     owner: String,
     lastModifiedBy: String,
     lastModifiedDate: Date,
@@ -36,8 +39,8 @@ var create = function(request, cb) {
         });
     });
 }
-var update = function(conditions, callback) {
-    tempItem.findOneAndUpdate(conditions, function(err, result) {
+var update = function(conditions, request, callback) {
+    tempItem.findOneAndUpdate(conditions, request, function(err, result) {
         if (err) {
             callback(err, null);
         } else {
@@ -59,7 +62,9 @@ var findByUser = function(user, callback) {
 };
 
 var findAll = function(callback) {
-    tempItem.find({},
+    tempItem.find({
+            'isDeleted': false
+        },
         null, {},
         function(err, collection) {
             if (err) {
