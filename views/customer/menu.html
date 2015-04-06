@@ -24,7 +24,7 @@
 							</td>
 						</tr>
 						<tr style="height:20%;">
-							<td colspan="2"><a class="btn btn-default" href="/item/edit/{{id}}" role="button">Edit</a><button type="button" class="btn btn-md" data-toggle="modal" id="delete" data-target="#deleteItem">Delete</button></td>
+							<td colspan="2"><a class="btn btn-default" href="/item/edit/{{id}}" role="button">Edit</a><button type="button" class="btn btn-md" data-toggle="modal" id="delete" data-target="#deleteItem" onclick="passDelete('{{_id}}')">Delete</button></td>
 							</td>
 						</tr>
 					</table>
@@ -34,7 +34,7 @@
 			<div class="modal fade" id="deleteItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
-							<form name="deleteItem" action="/item/delete/{{id}}" method="post">
+							<form name="deleteItem" action="/item/delete" method="get">
 								<div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 									<h4 class="modal-title"><b>Delete Item</b></h4>
@@ -43,7 +43,8 @@
 									<div class="alert alert-warning" role="alert">
 										<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 										<span class="sr-only">Warning:</span>
-										This action will permanently delete this item. Would you like to continue?	
+										This action will permanently delete this item. Would you like to continue?
+										<input type="text" style="display:none" name="id" id="deleteID" value="">
 									</div>
 								</div>
 								<div class="modal-footer">
@@ -114,7 +115,7 @@
 							</td>
 						</tr>
 						<tr style="height:20%;">
-							<td colspan="2"><button type="button" class="btn btn-md" data-toggle="modal" onclick="pass('{{name}}', '{{_id}}')" data-target="#addItem">Add</button>&nbsp;<a class="btn btn-default" href="/item/edit/{{_id}}" role="button">More Info</a></td>
+							<td colspan="2"><button type="button" class="btn btn-md" data-toggle="modal" onclick="passView('{{name}}', '{{_id}}')" data-target="#addItem">Add</button>&nbsp;<a class="btn btn-default" href="/item/edit/{{_id}}" role="button">More Info</a></td>
 							</td>
 						</tr>
 					</table>
@@ -136,7 +137,7 @@
 									<input type="number" class="form-control" value="1" step="1" name="quantity" />
 								</div>
 								<textarea type="text" name="request" placeholder="Special requests (e.g. no limes)" class="buff5 form-control"></textarea>
-								<input type="text" style="display:none" name="id" id="id" value="">
+								<input type="text" style="display:none" name="id" id="viewID" value="">
 								<input type="text" style="display:none" name="name" id="name" value="">
 							</div>
 							<div class="modal-footer">
@@ -150,6 +151,8 @@
 		</table>
 	</div>
 </div>
+{{/if}}
+
 <script src="/js/serializeObject.js"></script>
 <script src="/js/utility.js" type="text/javascript"></script>
 <script src="/js/jquery.cookie.js"></script>
@@ -157,9 +160,13 @@
 $.cookie.json = true;
 var items = [];
 
-function pass(name, id) {
-	$('#id').val(id);
+function passView(name, id) {
+	$('#viewID').val(id);
     $('#name').val(name);
+}
+
+function passDelete(id) {
+	$('#deleteID').val(id);
 }
 
 $('#menu').on('click', function(e) {
@@ -182,7 +189,6 @@ $('#menu').on('click', function(e) {
 $('form[name=addToOrder]').submit(function(e) {
     var _this = this;
     e.preventDefault();
-    console.log($('#name').val());
     var data = $(_this).serializeObject();
     items.push(data);
 
@@ -209,5 +215,17 @@ $('form[name=viewCustomerOrder]').submit(function(e) {
         }
     });
 });
+
+$('form[name=deleteItem]').submit(function(e) {
+    var _this = this;
+    var id = $('#deleteID').val();
+    $.ajax({
+        url: _this.action + "/" + id,
+        type: _this.method,
+        success: function(response) {
+            $("#deleteItem").modal("hide");
+            location.reload();
+        }
+    });
+});
 </script>
-{{/if}}
