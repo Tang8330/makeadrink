@@ -6,12 +6,13 @@
 				<td><strong>Drink</strong></td>
 				<td><strong>Price</strong></td>
 				<td><strong>Quantity</strong></td>
+				<td><strong>Request</strong></td>
 				<td><strong>Subtotal</strong></td>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="3"><strong>Total</strong></td>
+				<td colspan="4"><strong>Total</strong></td>
 				<td><strong>${{{total}}}</strong></td>
 			</tr>
 		</tfoot>
@@ -19,25 +20,26 @@
 			{{#each items}}
 				<tr>
 					<td>{{name}}</td>
-					<td class="price">1.5</td>
+					<td class="price">TBA</td>
 					<td class="quantity">{{quantity}}</td>
-					<td class="subtotal"></td>
+					<td>{{request}}</td>
+					<td class="subtotal">TBA</td>
 				</tr>
 			{{/each}}
 		{{/each}}
 	</table>
 </div>
 <script>
-	$(document).ready(function calc() {
-		var table = document.getElementById("bill");
-		var price = 0, quantity = 0, subtotal = 0;
-		for (var i = 1, row; row = table.rows[i]; i++) {
-			price = parseFloat(row.cells[1].innerHTML);
-			console.log(price);
-			quantity = parseInt(row.cells[2].innerHTML);
-			console.log(quantity);
-			subtotal = price * quantity;
-			row.cells[3].innerHTML = subtotal;
-		}
-	});
+//	$(document).ready(function calc() {
+//		var table = document.getElementById("bill");
+//		var price = 0, quantity = 0, subtotal = 0;
+//		for (var i = 1, row; row = table.rows[i]; i++) {
+//			price = parseFloat(row.cells[1].innerHTML);
+//			console.log(price);
+//			quantity = parseInt(row.cells[2].innerHTML);
+//			console.log(quantity);
+//			subtotal = price * quantity;
+//			row.cells[3].innerHTML = subtotal;
+//		}
+//	});
 </script>
