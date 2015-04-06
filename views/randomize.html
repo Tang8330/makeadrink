@@ -42,35 +42,39 @@
             <button type="submit" class="buff5 btn btn-success pull-right">Randomize</button>
             <button type="button" class="buff5 btn btn-primary pull-right" data-toggle="modal" onclick="passView('{{result.name}}', '{{result._id}}')" data-target="#addItem">Order</button>
         </form>
-            <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form name="addToOrder" method="post">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title"><b>Add Item</b></h4>
+        <div class="modal fade" id="addItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form name="addToOrder" method="post">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title"><b>Add Item</b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="input-group">
+                                <span class="input-group-addon">Qty</span>
+                                <input type="number" class="form-control" value="1" step="1" name="quantity" />
                             </div>
-                            <div class="modal-body">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Qty</span>
-                                    <input type="number" class="form-control" value="1" step="1" name="quantity" />
-                                </div>
-                                <textarea type="text" name="request" placeholder="Special requests (e.g. no limes)" class="buff5 form-control"></textarea>
-                                <input type="text" style="display:none" name="id" id="viewID" value="">
-                                <input type="text" style="display:none" name="name" id="name" value="">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="submit" class="btn btn-primary">Add To Order</button>
-                            </div>
-                        </form>
-                    </div>
+                            <textarea type="text" name="request" placeholder="Special requests (e.g. no limes)" class="buff5 form-control"></textarea>
+                            <input type="text" style="display:none" name="id" id="viewID" value="">
+                            <input type="text" style="display:none" name="name" id="name" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add To Order</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
     </div>
     <div class="col-xs-6 text-center">
         <div class="drink">
-            <img class="img img-responsive" src="{{result.pictures}}"></img>
+            {{#if pictures}}
+            <img class="img img-responsive img-thumbnail" src="/item/picture/{{_id}}"></img>
+            {{else}}
+            <img class="img img-responsive img-thumbnail" src="/img/bev2.jpg"></img>
+            {{/if}}
             <h1><b>{{result.name}}</b></h1>
             <span class="drink-attribute">
                 <i><b>Glass</b></i>
@@ -111,11 +115,11 @@
     </div>
     <script src="/js/select2.full.js"></script>
     <script src="/js/serializeObject.js"></script>
-<script src="/js/utility.js" type="text/javascript"></script>
-<script src="/js/jquery.cookie.js"></script>
+    <script src="/js/utility.js" type="text/javascript"></script>
+    <script src="/js/jquery.cookie.js"></script>
     <script>
     $.cookie.json = true;
-    
+
     var options = ['blue curacao', 'chocolate liquor', 'coffee', 'coke', 'gin', 'hot sauce', 'melon liqueur', 'orange juice', 'peanuts', 'pepsi', 'rum', 'rye', 'sour puss', 'sprite', 'sweet and sour', 'vodka', 'whiskey'];
     $(".choose-likes").select2({
         data: options
@@ -128,7 +132,7 @@
     $('form[name=randomize]').submit(function(e) {
         $('.drink').css('display', 'inline');
     });
-    
+
     function passView(name, id) {
         $('#viewID').val(id);
         $('#name').val(name);
@@ -152,7 +156,7 @@
         }
         $("#addItem").modal("hide");
     });
-     $('#menu').on('click', function(e) {
+    $('#menu').on('click', function(e) {
         var item = $.cookie("cart") || [];
         var text = "<table class='table table-hover'> <thead> <tr> <td> Name </td> <td> Quantity </td> <td> Request </td> </tr> </thead>";
         var name, quantity, specReq;
@@ -168,7 +172,7 @@
         }
         $('#cart').html(text);
     });
-     $('form[name=viewCustomerOrder]').submit(function(e) {
+    $('form[name=viewCustomerOrder]').submit(function(e) {
         var _this = this;
         e.preventDefault();
         $.ajax({
