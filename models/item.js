@@ -99,7 +99,7 @@ var findByID = function(id, callback) {
             callback(null, result);
         }
     });
-}
+};
 
 var randomizeLikesDislikes = function(likes, dislikes, callback) {
     tempItem.find({
@@ -183,7 +183,7 @@ module.exports.update = update;
 module.exports.findByUser = findByUser;
 module.exports.findAll = findAll;
 module.exports.count = count;
-module.exports.findByID = findByID;
+//module.exports.findByID = findByID;
 module.exports.randomize = randomize;
 module.exports.randomizeLikesDislikes = randomizeLikesDislikes;
 module.exports.increaseView = increaseView;

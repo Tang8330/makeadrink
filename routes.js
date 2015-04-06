@@ -334,15 +334,26 @@ module.exports = function(app) {
                 });
             } else {
                 //results
-                async.forEach(result.items, function(el, callback) {
-                    Item.findByID(el._id, function(error, item) {
-                        if (err) {
-                            callback();
-                        } else {
-                            total = total + item.price;
-                            callback();
-                        }
-                    });
+                var items = result[0] || {};
+                console.log('items', items);
+                async.forEach(items.items, function(el, callback) {
+                    console.log('el', el);
+                    //el = JSON.parse(el);
+                    console.log('looking for item', el);
+                    if (el.id) {
+                        Item.findById(el.id, function(error, itemz) {
+                            if (err) {
+                                callback();
+                            } else {
+                                console.log(itemz, 'item');
+                                total = total + itemz.price;
+                                callback();
+                            }
+                        });
+                    } else {
+                        callback();
+                    }
+
                 }, function() {
                     res.render('customer/bill', {
                         item: result,
@@ -394,6 +405,7 @@ module.exports = function(app) {
             } else {
                 var params = {};
                 var host = JSON.parse(conditions.items);
+                console.log('what', data[0].items);
                 host.push.apply(host, data[0].items);
                 conditions.items = host;
                 params.tableNumber = tableNumber;
