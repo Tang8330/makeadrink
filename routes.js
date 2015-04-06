@@ -2,6 +2,7 @@ var Item = require('./models/item'),
     Order = require('./models/order'),
     Account = require('./models/account'),
     passport = require('passport'),
+    mkdirp = require('mkdirp'),
     async = require('async'),
     fs = require('fs'),
     path = require('path'),
@@ -237,8 +238,8 @@ module.exports = function(app) {
      **/
     app.post('/item/add', function(req, res) {
         var conditions = req.body;
-        conditions.owner = req.user;
-        conditions.lastModifiedBy = req.user;
+        //conditions.owner = req.user;
+        //conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
         var p = new Promise(function(resolve, reject) {
             Item.create(conditions, function(err, result) {
@@ -250,22 +251,36 @@ module.exports = function(app) {
             });
         });
         p.then(function success(result) {
+                console.log(result, req.files.filezilla, 'json');
                 if (req.files) {
-                    delete coditions.files;
-                    fs.readFile(req.files.file.path, function(err, data) {
-                        var folder = path.join('assets', result._id, req.files.file.originalFilename),
-                            pathNew = path.join(__dirname, 'public', folder);
-                        fs.writeFile(pathNew, data, function(error) {
-                            if (error) {
+                    fs.readFile(req.files.filezilla.path, function(err, data) {
+                        var folder = '/assets/' + result._id,
+                            pathOld = path.join(__dirname, 'public', folder),
+                            pathNew = pathOld + '/' + req.files.filezilla.originalname;
+
+                        mkdirp(pathOld, function(err) {
+                            if (err) {
                                 res.render('restaurant/addItem', {
                                     message: error
                                 });
                             } else {
-                                res.render('restaurant/addItem', {
-                                    item: result
+                                fs.writeFile(pathNew, data, function(error) {
+                                    console.log(pathNew);
+                                    if (error) {
+                                        console.log('err', error);
+                                        res.render('restaurant/addItem', {
+                                            message: error
+                                        });
+                                    } else {
+                                        res.render('restaurant/addItem', {
+                                            item: result
+                                        });
+                                    }
                                 });
                             }
+
                         });
+
                     });
                 } else {
                     res.render('restaurant/addItem', {

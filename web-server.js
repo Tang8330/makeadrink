@@ -6,6 +6,7 @@ var express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     http = require('http'),
     logger = require('morgan'),
+    multer = require('multer'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
     cookieSession = require('cookie-session');
@@ -26,6 +27,7 @@ app.set('view engine', 'html');
 app.configure(function() {
     //app.use(logger('dev'));
     app.set('views', __dirname + '/views');
+    app.use(multer({}));
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({
         extended: true
