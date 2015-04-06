@@ -1,26 +1,43 @@
 <div>
-	<table class="table table-striped">
+	<table class="table table-striped" id="bill">
 		<thead>
 			<tr>
-				<td>Drink</td>
-				<td>Price</td>
-				<td>Quantity</td>
-				<td>Subtotal</td>
+				
+				<td><strong>Drink</strong></td>
+				<td><strong>Price</strong></td>
+				<td><strong>Quantity</strong></td>
+				<td><strong>Subtotal</strong></td>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="3">Total</td>
-				<td>{{{total}}}</td>
+				<td colspan="3"><strong>Total</strong></td>
+				<td><strong>${{{total}}}</strong></td>
 			</tr>
 		</tfoot>
 		{{#each item}}
-			<tr>
-				<td>{{name}}</td>
-				<td>{{price}}</td>
-				<td>{{quantity}}</td>
-				<td>subtotal</td>
-			</tr>
+			{{#each items}}
+				<tr>
+					<td>{{name}}</td>
+					<td class="price">1.5</td>
+					<td class="quantity">{{quantity}}</td>
+					<td class="subtotal"></td>
+				</tr>
+			{{/each}}
 		{{/each}}
 	</table>
 </div>
+<script>
+	$(document).ready(function calc() {
+		var table = document.getElementById("bill");
+		var price = 0, quantity = 0, subtotal = 0;
+		for (var i = 1, row; row = table.rows[i]; i++) {
+			price = parseFloat(row.cells[1].innerHTML);
+			console.log(price);
+			quantity = parseInt(row.cells[2].innerHTML);
+			console.log(quantity);
+			subtotal = price * quantity;
+			row.cells[3].innerHTML = subtotal;
+		}
+	});
+</script>
