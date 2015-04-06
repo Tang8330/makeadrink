@@ -186,7 +186,7 @@ module.exports = function(app) {
         });
     });
     app.get('/item/edit/:id', ensureAuthenticated, function(req, res) {
-        Item.findByID(req.params.id, function(err, result) {
+        Item.findById(req.params.id, function(err, result) {
             if (err) {
                 res.render('restaurant/editItem', {
                     message: err
@@ -330,7 +330,7 @@ module.exports = function(app) {
     });
 
     app.get('/item/id/:req.params.id', ensureAuthenticated, function(req, res) {
-        Item.findByID(req.params.id, function(err, result) {
+        Item.findById(req.params.id, function(err, result) {
             if (err) {
                 res.render('customer/item', {
                     err: err
@@ -543,7 +543,7 @@ module.exports = function(app) {
         });
     });
     app.get('/order/id/:id', ensureAuthenticated, function(req, res) {
-        Order.findByID(req.params.id, function(err, result) {
+        Order.findById(req.params.id, function(err, result) {
             if (err) {
                 res.render('restaurant/order', {
                     message: err
@@ -564,7 +564,7 @@ module.exports = function(app) {
             tableNumber = randomNumber();
             res.cookie('table_number', tableNumber);
         }
-        Order.findByID(req.params.id, function(err, result) {
+        Order.findById(req.params.id, function(err, result) {
             if (err) {
                 res.send(500, err);
             } else {
