@@ -334,7 +334,9 @@ module.exports = function(app) {
                 });
             } else {
                 //results
-                var items = result[0] || {};
+                var items = result[0] || {
+                    items: ''
+                }
                 console.log('items', items);
                 async.forEach(items.items, function(el, callback) {
                     console.log('el', el);
@@ -395,6 +397,9 @@ module.exports = function(app) {
         });
         p.then(function success(data) {
             if (data === false) {
+                if (conditions.items) {
+                    conditions.items = JSON.parse(conditions.items);
+                }
                 Order.create(conditions, function(err, result) {
                     if (err) {
                         res.send(500, e);
@@ -404,12 +409,16 @@ module.exports = function(app) {
                 });
             } else {
                 var params = {};
-                var host = JSON.parse(conditions.items);
-                console.log('what', data[0].items);
-                host.push.apply(host, data[0].items);
+                var host = [];
+                console.log(JSON.parse(conditions.items), JSON.parse(conditions.items) instanceof Array);
+                host.push.apply(host, JSON.parse(conditions.items));
+                if (data[0].items) {
+                    host.push.apply(host, data[0].items);
+                }
                 conditions.items = host;
                 params.tableNumber = tableNumber;
                 params.statusCode = 1; //ORDERSTATUS_SENT, export later
+                console.log('Conditions', conditions.items);
                 Order.update(params, conditions, function(err, result) {
                     if (err) {
                         res.send(500, e);
