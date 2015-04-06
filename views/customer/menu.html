@@ -1,4 +1,4 @@
-
+{{#if customer}}
 	<h2>Drink Menu</h2>
 	<div>				
 		{{#each items}}
@@ -58,7 +58,7 @@
 		<div class="col-xs-12 text-right">
 		<a class="btn btn-default" href="/item/add" role="button">Create</a>
 	</div>
-	{{#if customer}}
+	{{else}}
 	<div class="bckgrnd">	
 	<div class="row">
 	<div class="col-md-12">
@@ -115,7 +115,7 @@
 							</td>
 						</tr>
 						<tr style="height:20%;">
-							<td colspan="2"><button type="button" class="btn btn-md" data-toggle="modal" onclick="passView('{{name}}', '{{_id}}')" data-target="#addItem">Add</button>&nbsp;<a class="btn btn-default" href="/item/edit/{{_id}}" role="button">More Info</a></td>
+							<td colspan="2"><button type="button" class="btn btn-md" data-toggle="modal" onclick="passView('{{name}}', '{{_id}}')" data-target="#addItem">Add</button>&nbsp;<a class="btn btn-default" href="/item/view/{{_id}}" role="button">More Info</a></td>
 							</td>
 						</tr>
 					</table>

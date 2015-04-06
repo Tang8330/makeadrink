@@ -137,17 +137,17 @@ module.exports = function(app) {
         p.then(function success(data) {
             Item.findByID(req.params.id, function(err, result) {
                 if (err) {
-                    res.render('restaurant/viewItem', {
+                    res.render('customer/viewItem', {
                         message: err
                     });
                 } else {
-                    res.render('restaurant/viewItem', {
+                    res.render('customer/viewItem', {
                         item: result
                     });
                 }
             });
         }, function error(e) {
-            res.render('restaurant/viewItem', {
+            res.render('customer/viewItem', {
                 message: err
             });
         });
