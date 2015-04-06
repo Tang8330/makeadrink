@@ -100,7 +100,15 @@ module.exports = function(app) {
 
     app.get('/home', function(req, res) {
         res.cookie('table_number', randomNumber());
-        res.render('customer/home');
+        if (req.user.role === 'owner') {
+            res.render('customer/home', {
+                owner : true
+            });
+        } else {
+            res.render('customer/home', {
+                customer : true
+            });
+        }
     });
 
     app.get('/menu/restaurant', function(req, res) {
