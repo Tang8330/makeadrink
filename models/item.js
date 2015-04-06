@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
 var Item = new Schema({
     name: String,
     price: Number,
-    ingredients: Object,
+    ingredients: [],
     prep: String,
     glass: String,
     garnish: String,
@@ -91,6 +91,35 @@ var findByID = function(id, callback) {
     });
 }
 
+var randomize = function(likes, dislikes, callback) {
+    tempItem.find({
+            $and: [
+                {ingredients: {
+                    $elemMatch: {
+                        $in: likes
+                    }
+                }},
+                {ingredients : {
+                    $not : {$elemMatch : {
+                        $in : dislikes
+                    }}
+                }}
+            ]
+        },
+        function(err, result) {
+            if (err) {
+                callback(err, null);
+            } else {
+                if (result.length === 0 || !result) {
+                    callback(null, []);
+                } else {
+                    var idx = Math.floor((Math.random() * result.length) + 1);
+                    callback(null, result[idx - 1]);
+                }
+            }
+        });
+};
+
 module.exports = mongoose.model('Item', Item);
 module.exports.create = create;
 module.exports.update = update;
@@ -98,3 +127,4 @@ module.exports.findByUser = findByUser;
 module.exports.findAll = findAll;
 module.exports.count = count;
 module.exports.findByID = findByID;
+module.exports.randomize = randomize;

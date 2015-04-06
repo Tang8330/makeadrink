@@ -224,36 +224,37 @@ module.exports = function(app) {
         });
         console.log(req.body.files.file.originalFilename, 'gg22g');
         p.then(function success(result) {
-            if (req.files) {
-                delete coditions.files; 
-                console.log('ggg', conditions);
-            fs.readFile(req.files.file.path, function(err, data) {
-                var folder = path.join('assets', result._id, req.files.file.originalFilename),
-                    pathNew = path.join(__dirname, 'public', folder);
-                fs.writeFile(pathNew, data, function(error) {
-                    if (error) {
-                        res.render('restaurant/addItem', {
-                            message: error
+                if (req.files) {
+                    delete coditions.files;
+                    console.log('ggg', conditions);
+                    fs.readFile(req.files.file.path, function(err, data) {
+                        var folder = path.join('assets', result._id, req.files.file.originalFilename),
+                            pathNew = path.join(__dirname, 'public', folder);
+                        fs.writeFile(pathNew, data, function(error) {
+                            if (error) {
+                                res.render('restaurant/addItem', {
+                                    message: error
+                                });
+                            } else {
+                                res.render('restaurant/addItem', {
+                                    item: result
+                                });
+                            }
                         });
-                    } else {
-                        res.render('restaurant/addItem', {
-                            item: result
-                        });
-                    }
-                });
-            });                
-        } else {
-            res.render('restaurant/addItem', {
-                item: result,
-                msg : 'Successfully added this item'
-            });
-        }
+                    });
+                } else {
+                    res.render('restaurant/addItem', {
+                        item: result,
+                        msg: 'Successfully added this item'
+                    });
+                }
 
-        }, function error(e) {
-            res.render('restaurant/addItem', {
-                message: e
+            },
+            function error(e) {
+                res.render('restaurant/addItem', {
+                    message: e
+                });
             });
-        });
     });
 
     app.get('/customer/randomizer', function(req, res) {
@@ -364,10 +365,34 @@ module.exports = function(app) {
         });
 
     });
-
-    app.get('/robin',       function(req, res) {
-            res.render('randomize');
+    app.post('/robin', function(req, res) {
+        var likes = [],
+            dislikes = [];
+        if (req.body.like && !(req.body.like instanceof Array)) {
+            likes.push(req.body.like);
+        } else if (req.body.like instanceof Array) {
+            likes = req.body.like;
+        }
+        if (req.body.dislikes && !(req.body.dislikes instanceof Array)) {
+            dislikes.push(req.body.dislikes);
+        } else if (req.body.dislikes instanceof Array) {
+            dislikes = req.body.dislikes;
+        }
+        Item.randomize(likes, dislikes, function(err, result) {
+            if (err) {
+                res.render('randomize', {
+                    err: err
+                });
+            } else {
+                res.render('randomize', {
+                    result: result
+                });
+            }
         });
+    });
+    app.get('/robin', function(req, res) {
+        res.render('randomize');
+    });
     app.get('/order/all', function(req, res) {
         Order.findAll(function(err, result) {
             if (err) {
