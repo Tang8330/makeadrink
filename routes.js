@@ -378,17 +378,32 @@ module.exports = function(app) {
         } else if (req.body.dislikes instanceof Array) {
             dislikes = req.body.dislikes;
         }
-        Item.randomize(likes, dislikes, function(err, result) {
-            if (err) {
-                res.render('randomize', {
-                    err: err
-                });
-            } else {
-                res.render('randomize', {
-                    result: result
-                });
-            }
-        });
+        if (likes.length > 0) {
+            Item.randomizeLikesDislikes(likes, dislikes, function(err, result) {
+                if (err) {
+                    res.render('randomize', {
+                        err: err
+                    });
+                } else {
+                    res.render('randomize', {
+                        result: result
+                    });
+                }
+            });
+        } else {
+            Item.randomize(likes, dislikes, function(err, result) {
+                if (err) {
+                    res.render('randomize', {
+                        err: err
+                    });
+                } else {
+                    res.render('randomize', {
+                        result: result
+                    });
+                }
+            });
+        }
+
     });
     app.get('/robin', function(req, res) {
         res.render('randomize');

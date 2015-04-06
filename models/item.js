@@ -91,20 +91,23 @@ var findByID = function(id, callback) {
     });
 }
 
-var randomize = function(likes, dislikes, callback) {
+var randomizeLikesDislikes = function(likes, dislikes, callback) {
     tempItem.find({
-            $and: [
-                {ingredients: {
+            $and: [{
+                ingredients: {
                     $elemMatch: {
                         $in: likes
                     }
-                }},
-                {ingredients : {
-                    $not : {$elemMatch : {
-                        $in : dislikes
-                    }}
-                }}
-            ]
+                }
+            }, {
+                ingredients: {
+                    $not: {
+                        $elemMatch: {
+                            $in: dislikes
+                        }
+                    }
+                }
+            }]
         },
         function(err, result) {
             if (err) {
@@ -120,6 +123,31 @@ var randomize = function(likes, dislikes, callback) {
         });
 };
 
+var randomize = function(likes, dislikes, callback) {
+    tempItem.find({
+            $and: [{
+                ingredients: {
+                    $not: {
+                        $elemMatch: {
+                            $in: dislikes
+                        }
+                    }
+                }
+            }]
+        },
+        function(err, result) {
+            if (err) {
+                callback(err, null);
+            } else {
+                if (result.length === 0 || !result) {
+                    callback(null, []);
+                } else {
+                    var idx = Math.floor((Math.random() * result.length) + 1);
+                    callback(null, result[idx - 1]);
+                }
+            }
+        });
+};
 module.exports = mongoose.model('Item', Item);
 module.exports.create = create;
 module.exports.update = update;
@@ -128,3 +156,4 @@ module.exports.findAll = findAll;
 module.exports.count = count;
 module.exports.findByID = findByID;
 module.exports.randomize = randomize;
+module.exports.randomizeLikesDislikes = randomizeLikesDislikes;
