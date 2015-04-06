@@ -15,7 +15,7 @@ var Item = new Schema({
     garnish: String,
     category: Object,
     desc: String,
-    pictures: [],
+    pictures: Boolean,
     isDeleted: {
         type: Boolean,
         default: false

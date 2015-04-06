@@ -137,19 +137,30 @@ module.exports = function(app) {
         p.then(function success(data) {
             Item.findByID(req.params.id, function(err, result) {
                 if (err) {
-                    res.render('restaurant/viewItem', {
+                    res.render('customer/viewItem', {
                         message: err
                     });
                 } else {
-                    res.render('restaurant/viewItem', {
+                    res.render('customer/viewItem', {
                         item: result
                     });
                 }
             });
         }, function error(e) {
-            res.render('restaurant/viewItem', {
+            res.render('customer/viewItem', {
                 message: err
             });
+        });
+    });
+    app.get('/item/picture/:id', function(req, res) {
+        var itemPath = path.join(__dirname, 'public', 'assets', req.params.id);
+        fs.readdir(itemPath, function(err, items) {
+            if (items && items.length > 0) {
+                var item = path.join(itemPath, items[0]);
+                res.sendfile(item);
+            } else {
+                res.send(500);
+            }
         });
     });
     app.get('/item/edit/:id', function(req, res) {
@@ -238,6 +249,9 @@ module.exports = function(app) {
      **/
     app.post('/item/add', function(req, res) {
         var conditions = req.body;
+        if (req.files.filezilla) {
+            conditions.pictures = true;
+        }
         //conditions.owner = req.user;
         //conditions.lastModifiedBy = req.user;
         conditions.lastModifiedDate = new Date();
@@ -251,13 +265,11 @@ module.exports = function(app) {
             });
         });
         p.then(function success(result) {
-                console.log(result, req.files.filezilla, 'json');
-                if (req.files) {
+                if (req.files.filezilla) {
                     fs.readFile(req.files.filezilla.path, function(err, data) {
                         var folder = '/assets/' + result._id,
                             pathOld = path.join(__dirname, 'public', folder),
                             pathNew = pathOld + '/' + req.files.filezilla.originalname;
-
                         mkdirp(pathOld, function(err) {
                             if (err) {
                                 res.render('restaurant/addItem', {
