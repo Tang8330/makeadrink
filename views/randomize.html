@@ -1,27 +1,67 @@
 <link rel="stylesheet" type="text/css" href="/css/select2.min.css">
 <div class="row">
-    <form action="" method="post">
-        <div class="col-xs-12">
-            <h1><b>Suggested Drinks</b></h1>
+    <div class="col-xs-6">
+        <form name="" ="randomize" action="" method="post">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Randomize A Drink!</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <strong>Please pick your favourite ingredients!</strong>
+                        <select class="form-control choose-likes" name="like" multiple="multiple">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <strong>Please pick your ingredients you do not want.</strong>
+                        <select class="form-control choose-dislikes" name="dislikes" multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="buff5 btn btn-success pull-right">Randomize</button>
+        </form>
+    </div>
+    <div class="col-xs-6 text-center">
+        <div class="drink">
+            <img class="img img-responsive" src="{{result.pictures}}"></img>
+            <h1><b>{{result.name}}</b></h1>
+            <span class="drink-attribute">
+                <i><b>Glass</b></i>
+                <div>
+                    {{result.glass}}
+                </div>
+                <div class="row top-buffer"></div>  
+            </span>
+            <span class="drink-attribute">
+                <i><b>Category</b></i>
+                <div>
+                    {{result.category}}
+                </div>
+                <div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+                <i><b>Garnish</b></i>
+                <div>
+                    {{result.garnish}}
+                </div>
+                <div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+                <i><b>Preparation</b></i>
+                <div>
+                    {{result.prep}}
+                </div>
+                <div class="row top-buffer"></div>
+            </span>
+            <span class="drink-attribute">
+                <i><b>Ingredients</b></i>
+                <div>
+                    {{result.ingredients}}
+                </div>
+                <div class="row top-buffer"></div>
+            </span>
         </div>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <h4><b>Please pick your favourite ingredients!</b></h4>
-        <select class="form-control choose-likes" name="like" multiple="multiple">
-        </select>
-        <br/>
-        <br/>
-        <h4><b>Please pick your ingredients you do not want.</b></h4>
-        <select class="form-control choose-dislikes" name="dislikes" multiple="multiple">
-        </select>
-        <button type="submit" class="buff5 btn btn-primary pull-right">Randomize</button>
-    </form>
-</div>
-<div class="row">
-    <div class="col-xs-12 text-right">
-        {{{result}}}
     </div>
     <script src="/js/select2.full.js"></script>
     <script>
@@ -32,4 +72,8 @@
     $(".choose-dislikes").select2({
         data: options
     });
+    $('form[name=randomize]').submit(function(e) {
+        $('.drink').css('display', 'inline');
+    });
+        
     </script>
