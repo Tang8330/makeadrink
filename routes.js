@@ -100,7 +100,15 @@ module.exports = function(app) {
 
     app.get('/home', function(req, res) {
         res.cookie('table_number', randomNumber());
-        res.render('customer/home');
+        if (req.user.role === 'owner') {
+            res.render('customer/home', {
+                owner: true
+            });
+        } else {
+            res.render('customer/home', {
+                customer: true
+            });
+        }
     });
 
     app.get('/menu/restaurant', function(req, res) {
@@ -118,7 +126,8 @@ module.exports = function(app) {
                     });
                 } else {
                     res.render('customer/menu', {
-                        items: result
+                        items: result,
+                        customer: true
                     });
                 }
             }
@@ -139,7 +148,8 @@ module.exports = function(app) {
                     });
                 } else {
                     res.render('customer/menu', {
-                        items: result
+                        items: result,
+                        customer: true
                     });
                 }
             }
@@ -461,25 +471,57 @@ module.exports = function(app) {
         if (likes.length > 0) {
             Item.randomize(likes, dislikes, function(err, result) {
                 if (err) {
-                    res.render('randomize', {
-                        err: err
-                    });
+                    if (req.user.role === 'owner') {
+                        res.render('randomize', {
+                            err: err,
+                            owner : true
+                        });
+                    } else {
+                        res.render('randomize', {
+                            err: err,
+                            customer : true
+                        });
+                    }
                 } else {
-                    res.render('randomize', {
-                        result: result
-                    });
+                    if (req.user.role === 'owner') {
+                        res.render('randomize', {
+                            result: result,
+                            owner : true
+                        });
+                    } else {
+                        res.render('randomize', {
+                            result: result,
+                            customer : true
+                        });
+                    }
                 }
             });
         } else {
             Item.randomize(likes, dislikes, function(err, result) {
-                if (err) {
-                    res.render('randomize', {
-                        err: err
-                    });
+               if (err) {
+                    if (req.user.role === 'owner') {
+                        res.render('randomize', {
+                            err: err,
+                            owner : true
+                        });
+                    } else {
+                        res.render('randomize', {
+                            err: err,
+                            customer : true
+                        });
+                    }
                 } else {
-                    res.render('randomize', {
-                        result: result
-                    });
+                    if (req.user.role === 'owner') {
+                        res.render('randomize', {
+                            result: result,
+                            owner : true
+                        });
+                    } else {
+                        res.render('randomize', {
+                            result: result,
+                            customer : true
+                        });
+                    }
                 }
             });
         }
@@ -498,7 +540,15 @@ module.exports = function(app) {
         });
     });
     app.get('/customer/randomizer', ensureAuthenticated, function(req, res) {
-        res.render('randomize');
+        if (req.user.role === 'owner') {
+            res.render('randomize', {
+                owner: true
+            });
+        } else {
+            res.render('randomize', {
+                customer : true
+            });
+        }
     });
 
     app.get('/contact', function(req, res) {

@@ -1,107 +1,90 @@
 <div class='col-xs-12 text-center'>
-		<h2>Drink Suggestions From the Bar</h2>
-		<div class="col-xs-12" style="background-color:#5C9DFF; height:3px;">
-		&nbsp;
-		</div>
-		<div class="col-xs-12" style="background-color:#000000; height:3px;">
-			&nbsp;
-		</div>
+    <h2>Drink Suggestions From the Bar</h2>
+    <div class="col-xs-12" style="background-color:#5C9DFF; height:3px;">
+        &nbsp;
+    </div>
+    <div class="col-xs-12" style="background-color:#000000; height:3px;">
+        &nbsp;
+    </div>
 </div>
-<<<<<<< HEAD
 <div class='col-xs-6'>
-	<br/><br/>
-	<p><i>Are you feeling adventurous? Let us suggest a drink. <br/>
-	If there is something you don't like, let us know first:</i></p>	
-	<form action="">
-		<input type="checkbox" name="alcohol" value="alcohol" onclick="extendA();">I don't want certain types of alcohol</input><br/>
-		<div>
-		</div>
-		<input type="checkbox" name="mix" value="mix">I don't want certain types of Mix</input>
-		<div>
-		</div>
-	</form>
-	<br/>
-=======
-<div class='col-xs-12 text-center'>
-    <form action="/customer/randomizer/{{id}}" method="GET">
->>>>>>> origin/master
-    <button type="button" class='btn btn-danger randomize' onclick=""><span class="glyphicon glyphicon-play"></span> Randomize</button>
-    <button type="button" class='btn btn-primary respin' onclick="" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
-        <div class='details' style='display:none'>
-            <i>Not satisfied with your results? Try it again!</i>
+    <br/>
+    <br/>
+    <p><i>Are you feeling adventurous? Let us suggest a drink. <br/>
+    If there is something you don't like, let us know first:</i></p>
+    <form action="">
+        <input type="checkbox" name="alcohol" value="alcohol" onclick="extendA();">I don't want certain types of alcohol</input>
+        <br/>
+        <div>
         </div>
-        <div class="drink" style='display:none'>
-            <h1><b>{{item.name}}</b></h1>
-            <span class="drink-attribute">
-    			<i><b>Glass</b></i>
-    			<div>
-    				{{item.glass}}
-    			</div>
-    			<div class="row top-buffer"></div>
+        <input type="checkbox" name="mix" value="mix">I don't want certain types of Mix</input>
+        <div>
+        </div>
+    </form>
+    <br/>
+    <div class='col-xs-12 text-center'>
+        <form action="/customer/randomizer/{{id}}" method="GET">
+            <button type="button" class='btn btn-danger randomize' onclick=""><span class="glyphicon glyphicon-play"></span> Randomize</button>
+            <button type="button" class='btn btn-primary respin' onclick="" style='display:none'><span class="glyphicon glyphicon-refresh"></span> Try Again</button>
+            <div class='details' style='display:none'>
+                <i>Not satisfied with your results? Try it again!</i>
+            </div>
+            <div class="drink" style='display:none'>
+                {{#if pictures}}
+                <img class="img img-responsive img-thumbnail max140" src="/item/picture/{{_id}}"></img>
+                {{else}}
+                <img class="img img-responsive img-thumbnail max140" src="/img/bev2.jpg"></img>
+                {{/if}}
+                <h1><b>{{item.name}}</b></h1>
+                <span class="drink-attribute">
+                <i><b>Glass</b></i>
+                <div>
+                    {{item.glass}}
+                </div>
+                <div class="row top-buffer"></div>
             </span>
-            <span class="drink-attribute">
-    			<i><b>Category</b></i>
-    			<div>
-    				{{item.category}}
-    			</div>
-    			<div class="row top-buffer"></div>
+                <span class="drink-attribute">
+                <i><b>Category</b></i>
+                <div>
+                    {{item.category}}
+                </div>
+                <div class="row top-buffer"></div>
             </span>
-            <span class="drink-attribute">
-    			<i><b>Garnish</b></i>
-    			<div>
-    				{{item.garnish}}
-    			</div>
-    			<div class="row top-buffer"></div>
+                <span class="drink-attribute">
+                <i><b>Garnish</b></i>
+                <div>
+                    {{item.garnish}}
+                </div>
+                <div class="row top-buffer"></div>
             </span>
-            <span class="drink-attribute">
-    			<i><b>Preparation</b></i>
-    			<div>
-    				{{item.prep}}
-    			</div>
-    			<div class="row top-buffer"></div>
+                <span class="drink-attribute">
+                <i><b>Preparation</b></i>
+                <div>
+                    {{item.prep}}
+                </div>
+                <div class="row top-buffer"></div>
             </span>
-            <span class="drink-attribute">
+                <span class="drink-attribute">
                 <i><b>Ingredients</b></i>
                 <div>
                     {{item.ingredients}}
                 </div>
                 <div class="row top-buffer"></div>
             </span>
-<<<<<<< HEAD
-</div>
-<div class='col-xs-6 text-center'>
-&nbsp;
-</div>
-<script>
-$(document.body).on('click', '.randomize', function() {
-    $('.randomize').hide();
-    $('.details').fadeIn('slow');
-    $('.respin').fadeIn('slow');
-});
-</script>
-<script>
-function extendA() {
-  
-}
-=======
-        </div>
-    </form>
-</div>
-<script>
-    $('form[name=viewCustomerOrder]').submit(function(e) {
-        var _this = this;
-        e.preventDefault();
-        $.ajax({
-            url: _this.action,
-            type: _this.method,
-            data: 
-            success: function(response) {
-                $('.randomize').hide();
-                $('.details').fadeIn('slow');
-                $('.respin').fadeIn('slow');
-                $('.drink').fadeIn('slow');
-            }
-        });
-    });
->>>>>>> origin/master
-</script>
+            </div>
+            <script>
+            $('form[name=viewCustomerOrder]').submit(function(e) {
+                var _this = this;
+                e.preventDefault();
+                $.ajax({
+                    url: _this.action,
+                    type: _this.method,
+                    data: success: function(response) {
+                        $('.randomize').hide();
+                        $('.details').fadeIn('slow');
+                        $('.respin').fadeIn('slow');
+                        $('.drink').fadeIn('slow');
+                    }
+                });
+            });
+            </script>
