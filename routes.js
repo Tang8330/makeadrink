@@ -118,7 +118,8 @@ module.exports = function(app) {
                     });
                 } else {
                     res.render('customer/menu', {
-                        items: result
+                        items: result,
+                        customer: true
                     });
                 }
             }
@@ -139,7 +140,8 @@ module.exports = function(app) {
                     });
                 } else {
                     res.render('customer/menu', {
-                        items: result
+                        items: result,
+                        customer: true
                     });
                 }
             }
